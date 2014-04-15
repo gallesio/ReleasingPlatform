@@ -17,6 +17,8 @@ import com.sun.jersey.core.util.Base64;
 @Path("/RCM")
 public class RCM {
 	
+	String result = "Processing RCM ...";
+	
 	public RCM() {}
 	
 	@POST
@@ -27,7 +29,7 @@ public class RCM {
         WebResource webResource = client.resource("http://localhost:8080/activiti-rest/service/process-instance");
         //WebResource webResource = client.resource("http://localhost:8080/activiti-rest/service/process-instances");
         
-        System.out.println("Processing RCM ...");
+        System.out.println(result);
         
         
         //String input = "{\"processDefinitionKey\":\"releasingProcess\"}";

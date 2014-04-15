@@ -7,13 +7,15 @@ import javax.ws.rs.core.Response.Status;
 
 @Path("/checkout")
 public class CheckOutResource {
+	
+	String result = "Processing CHECK OUT ...";
 
 	public CheckOutResource() {}
 	
 	@GET
 	public Response getCheckOut() {
-		System.out.println("Processing CHECK OUT ...");
-		return Response.status(Status.OK).entity("Processing CHECK OUT ...").build();
+		System.out.println(result);
+		return Response.status(Status.OK).entity(result).build();
 	}
 
 }

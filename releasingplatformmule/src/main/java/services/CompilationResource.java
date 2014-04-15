@@ -8,12 +8,14 @@ import javax.ws.rs.core.Response.Status;
 @Path("/compilation")
 public class CompilationResource {
 	
+	String result = "Processing COMPILATION ...";
+	
 	public CompilationResource() {}
 	
 	@GET
 	public Response getCompilation() {
-		System.out.println("Processing COMPILATION ...");
-		return Response.status(Status.OK).entity("Processing COMPILATION ...").build();
+		System.out.println(result);
+		return Response.status(Status.OK).entity(result).build();
 	}
 
 }

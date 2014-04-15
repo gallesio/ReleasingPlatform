@@ -8,12 +8,14 @@ import javax.ws.rs.core.Response.Status;
 @Path("/publish")
 public class PublishResource {
 	
+	String result = "Processing PUBLISH ...";
+	
 	public PublishResource() {}
 	
 	@GET
 	public Response getPublish() {
-		System.out.println("Processing PUBLISH ...");
-		return Response.status(Status.OK).entity("Processing PUBLISH ...").build();
+		System.out.println(result);
+		return Response.status(Status.OK).entity(result).build();
 	}
 
 }
