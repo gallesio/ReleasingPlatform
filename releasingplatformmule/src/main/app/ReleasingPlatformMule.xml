@@ -21,6 +21,36 @@ http://www.mulesoft.org/schema/mule/ee/wmq http://www.mulesoft.org/schema/mule/e
     <not-filter name="Not" doc:name="Not">
         <wildcard-filter pattern="/favicon.ico" caseSensitive="true"/>
     </not-filter>
+    <flow name="RM" doc:name="RM">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="11000" doc:name="HTTP localhost:11000"/>
+        <jersey:resources doc:name="RM">
+            <component class="services.RM"/>
+        </jersey:resources>
+    </flow>
+    <flow name="Declaration" doc:name="Declaration">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="11001" doc:name="HTTP localhost:11001"/>
+        <jersey:resources doc:name="Declaration">
+            <component class="services.DeclarationResource"/>
+        </jersey:resources>
+    </flow>
+    <flow name="Building" doc:name="Building">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="11002" doc:name="HTTP localhost:11002"/>
+        <jersey:resources doc:name="Building">
+            <component class="services.BuildingResource"/>
+        </jersey:resources>
+    </flow>
+    <flow name="Validation" doc:name="Validation">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="11003" doc:name="HTTP localhost:11003"/>
+        <jersey:resources doc:name="Validation">
+            <component class="services.ValidationResource"/>
+        </jersey:resources>
+    </flow>
+    <flow name="Deploy" doc:name="Deploy">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="11004" doc:name="HTTP localhost:11004"/>
+        <jersey:resources doc:name="Deploy">
+            <component class="services.DeployResource"/>
+        </jersey:resources>
+    </flow>
     <flow name="RCMUserInterface" doc:name="RCMUserInterface">
         <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="13000" path="RCMUserInterface" doc:name="HTTP localhost:13000"/>
         <filter ref="Not" doc:name="Filter Reference"/>
@@ -60,6 +90,18 @@ http://www.mulesoft.org/schema/mule/ee/wmq http://www.mulesoft.org/schema/mule/e
         <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="12005"  doc:name="HTTP localhost:12005"/>
         <jersey:resources doc:name="Publish">
             <component class="services.PublishResource"/>
+        </jersey:resources>
+    </flow>
+    <flow name="Copy" doc:name="Copy">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="12006" doc:name="HTTP localhost:12006"/>
+        <jersey:resources doc:name="Copy">
+            <component class="services.CopyResource"/>
+        </jersey:resources>
+    </flow>
+    <flow name="Promote" doc:name="Promote">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="12007" doc:name="HTTP localhost:12007"/>
+        <jersey:resources doc:name="Promote">
+            <component class="services.PromoteResource"/>
         </jersey:resources>
     </flow>
 </mule>
