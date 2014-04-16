@@ -53,8 +53,8 @@ http://www.mulesoft.org/schema/mule/ee/wmq http://www.mulesoft.org/schema/mule/e
     </flow>
     <flow name="RCMUserInterface" doc:name="RCMUserInterface">
         <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="13000" path="RCMUserInterface" doc:name="HTTP localhost:13000"/>
-        <filter ref="Not" doc:name="Filter Reference"/>
-        <http:static-resource-handler resourceBase="${app.home}/web" defaultFile="index.html" doc:name="HTTP Static Resource Handler"/>
+        <filter ref="Not" doc:name="Exclude Favicon.ico"/>
+        <http:static-resource-handler resourceBase="${app.home}/web" defaultFile="index.html" doc:name="RCM User Interface"/>
     </flow>
     <flow name="RCM" doc:name="RCM">
         <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="14000" doc:name="HTTP localhost:14000"/>

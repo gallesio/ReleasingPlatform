@@ -1,7 +1,10 @@
 package services;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.core.MediaType;
+
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
@@ -15,7 +18,10 @@ public class RCM {
 	public RCM() {}
 	
 	@POST
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public String instanciateProcess(String input) {
+		
+		System.out.println("input = " + input);
         
         Client client = Client.create();
         client.addFilter(new HTTPBasicAuthFilter("kermit", "kermit"));
