@@ -9,4 +9,4 @@ ReleasingPlatform
 6. Open Postman on Chrome navigator.
       POST http://localhost:14000/RCM
       {"processDefinitionKey":"releasingProcess"}
-Or go to http://localhost:13000/RCMUserInterface, then type releasingProcecss in input field, click on OK button.
+Or go to http://localhost:13000/RCMUserInterface, then type releasingProcess in input field, click on OK button.
