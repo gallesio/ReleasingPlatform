@@ -4,6 +4,8 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.Response;
 
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
@@ -18,7 +20,6 @@ public class RCM {
 	public RCM() {}
 	
 	@POST
-	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public String instanciateProcess(String input) {
 		
 		System.out.println("input = " + input);
@@ -28,7 +29,7 @@ public class RCM {
         WebResource webResource = client.resource("http://localhost:8080/activiti-rest/service/process-instance");
         
         System.out.println(result);
-
+        
         ClientResponse response = webResource.post(ClientResponse.class, input);
         String output = response.getEntity(String.class);
         
