@@ -22,7 +22,7 @@ public class RCM {
     public String instanciateProcess(String input) {
 		
 		System.out.println("input = " + input);
-        
+		
         Client client = Client.create();
         client.addFilter(new HTTPBasicAuthFilter("kermit", "kermit"));
         WebResource webResource = client.resource("http://localhost:8080/activiti-rest/service/process-instance");

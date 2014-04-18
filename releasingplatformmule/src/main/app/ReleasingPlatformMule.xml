@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:wmq="http://www.mulesoft.org/schema/mule/ee/wmq" xmlns:jetty="http://www.mulesoft.org/schema/mule/jetty" xmlns:jersey="http://www.mulesoft.org/schema/mule/jersey" 
+<mule xmlns:ajax="http://www.mulesoft.org/schema/mule/ajax" xmlns:wmq="http://www.mulesoft.org/schema/mule/ee/wmq" xmlns:jetty="http://www.mulesoft.org/schema/mule/jetty" xmlns:jersey="http://www.mulesoft.org/schema/mule/jersey" 
 	  xmlns:scripting="http://www.mulesoft.org/schema/mule/scripting" 
 	  xmlns:http="http://www.mulesoft.org/schema/mule/http" 
 	  xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" 
@@ -15,7 +15,8 @@ http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/m
 http://www.mulesoft.org/schema/mule/jersey http://www.mulesoft.org/schema/mule/jersey/current/mule-jersey.xsd
 http://jersey.apache.org/core http://jersey.apache.org/schemas/core.xsd
 http://www.mulesoft.org/schema/mule/jetty http://www.mulesoft.org/schema/mule/jetty/current/mule-jetty.xsd
-http://www.mulesoft.org/schema/mule/ee/wmq http://www.mulesoft.org/schema/mule/ee/wmq/current/mule-wmq-ee.xsd">
+http://www.mulesoft.org/schema/mule/ee/wmq http://www.mulesoft.org/schema/mule/ee/wmq/current/mule-wmq-ee.xsd
+http://www.mulesoft.org/schema/mule/ajax http://www.mulesoft.org/schema/mule/ajax/current/mule-ajax.xsd">
     <http:connector name="HTTP_HTTPS" cookieSpec="netscape" validateConnections="true" sendBufferSize="0" receiveBufferSize="0" receiveBacklog="0" clientSoTimeout="10000" serverSoTimeout="10000" socketSoLinger="0" doc:name="HTTP\HTTPS"/>
     <http:endpoint exchange-pattern="request-response" host="localhost" port="8081" method="GET" name="HTTP" doc:name="HTTP"/>
     <not-filter name="Not" doc:name="Not">
