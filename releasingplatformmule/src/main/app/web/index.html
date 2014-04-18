@@ -9,6 +9,7 @@
     <h2>Release Construction Manager - Web Interface</h2>
     <form method="POST" id="myForm" action="http://localhost:14000/RCM">
     	<input type="text" id="processDefinitionKey" name="processDefinitionKey" value="releasingConstructionProcess" size="50"/>
+    	<div id="resp"></div>
         <input type="submit" value="OK"/>
         
         <script type="text/javascript">
@@ -21,7 +22,10 @@
 						variable = $form.serializeJSON(),
 						json = JSON.stringify(variable);
 					
-					$.post(url, json);
+					$.post(url, json, function(data, status) {
+						$('#resp').text(data);
+						alert("Data : " + data + ", Status : " + status);
+					});
 				});
 			});
 		</script> 

@@ -59,6 +59,7 @@ http://www.mulesoft.org/schema/mule/ajax http://www.mulesoft.org/schema/mule/aja
     </flow>
     <flow name="RCM" doc:name="RCM">
         <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="14000" doc:name="HTTP localhost:14000"/>
+        <set-property propertyName="Access-Control-Allow-Origin" value="*" doc:name="Property" />
         <jersey:resources doc:name="RCM">
             <component class="services.RCM"/>
         </jersey:resources>
