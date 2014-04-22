@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:ajax="http://www.mulesoft.org/schema/mule/ajax" xmlns:wmq="http://www.mulesoft.org/schema/mule/ee/wmq" xmlns:jetty="http://www.mulesoft.org/schema/mule/jetty" xmlns:jersey="http://www.mulesoft.org/schema/mule/jersey" 
+<mule xmlns:jdbc-ee="http://www.mulesoft.org/schema/mule/ee/jdbc" xmlns:json="http://www.mulesoft.org/schema/mule/json" xmlns:ajax="http://www.mulesoft.org/schema/mule/ajax" xmlns:wmq="http://www.mulesoft.org/schema/mule/ee/wmq" xmlns:jetty="http://www.mulesoft.org/schema/mule/jetty" xmlns:jersey="http://www.mulesoft.org/schema/mule/jersey" 
 	  xmlns:scripting="http://www.mulesoft.org/schema/mule/scripting" 
 	  xmlns:http="http://www.mulesoft.org/schema/mule/http" 
 	  xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" 
@@ -16,12 +16,55 @@ http://www.mulesoft.org/schema/mule/jersey http://www.mulesoft.org/schema/mule/j
 http://jersey.apache.org/core http://jersey.apache.org/schemas/core.xsd
 http://www.mulesoft.org/schema/mule/jetty http://www.mulesoft.org/schema/mule/jetty/current/mule-jetty.xsd
 http://www.mulesoft.org/schema/mule/ee/wmq http://www.mulesoft.org/schema/mule/ee/wmq/current/mule-wmq-ee.xsd
-http://www.mulesoft.org/schema/mule/ajax http://www.mulesoft.org/schema/mule/ajax/current/mule-ajax.xsd">
+http://www.mulesoft.org/schema/mule/ajax http://www.mulesoft.org/schema/mule/ajax/current/mule-ajax.xsd
+http://www.mulesoft.org/schema/mule/ee/jdbc http://www.mulesoft.org/schema/mule/ee/jdbc/current/mule-jdbc-ee.xsd
+http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd">
     <http:connector name="HTTP_HTTPS" cookieSpec="netscape" validateConnections="true" sendBufferSize="0" receiveBufferSize="0" receiveBacklog="0" clientSoTimeout="10000" serverSoTimeout="10000" socketSoLinger="0" doc:name="HTTP\HTTPS"/>
     <http:endpoint exchange-pattern="request-response" host="localhost" port="8081" method="GET" name="HTTP" doc:name="HTTP"/>
     <not-filter name="Not" doc:name="Not">
         <wildcard-filter pattern="/favicon.ico" caseSensitive="true"/>
     </not-filter>
+    <jdbc-ee:mysql-data-source name="MySQL_Data_Source" user="root" password="" url="jdbc:mysql://localhost:3306/component_dev" transactionIsolation="UNSPECIFIED" doc:name="MySQL Data Source"/>
+    <jdbc-ee:connector name="Database" dataSource-ref="MySQL_Data_Source" validateConnections="true" queryTimeout="-1" pollingFrequency="0" doc:name="Database">
+        <jdbc-ee:query key="selectAll" value="SELECT * FROM component_table"/>
+        <jdbc-ee:query key="insertItem" value="INSERT INTO component_table SET name=#[message.inboundProperties['name']], type=#[message.inboundProperties['type']], ref=#[message.inboundProperties['ref']]"/>
+        <jdbc-ee:query key="updateItem" value="UPDATE component_table SET name=#[message.inboundProperties['name']], type=#[message.inboundProperties['type']], ref=#[message.inboundProperties['ref']] WHERE id=#[message.inboundProperties['id']]"/>
+        <jdbc-ee:query key="deleteItem" value="DELETE FROM component_table WHERE id=#[message.inboundProperties['id']]"/>
+        <jdbc-ee:query key="findById" value="SELECT * FROM component_table  WHERE id=#[message.inboundProperties['id']]"/>
+    </jdbc-ee:connector>
+    <flow name="UserInterface" doc:name="UserInterface">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="ui" doc:name="HTTP"/>
+        <filter ref="Not" doc:name="Exclude /favicon.ico"/>
+        <http:static-resource-handler resourceBase="${app.home}/web" defaultFile="ui.html" doc:name="UI"/>
+    </flow>
+    <flow name="listAllComponents" doc:name="listAllComponents">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="list" doc:name="HTTP"/>
+        <jdbc-ee:outbound-endpoint exchange-pattern="request-response" queryTimeout="-1" connector-ref="Database" doc:name="List all components" queryKey="selectAll"/>
+        <json:object-to-json-transformer doc:name="Object to JSON"/>
+    </flow>
+    <flow name="createItem" doc:name="createItem">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="create" doc:name="HTTP"/>
+        <jdbc-ee:outbound-endpoint exchange-pattern="request-response" queryKey="insertItem" queryTimeout="-1" connector-ref="Database" doc:name="Create new item"/>
+        <jdbc-ee:outbound-endpoint exchange-pattern="request-response" queryKey="selectAll" queryTimeout="-1" connector-ref="Database" doc:name="List all items"/>
+        <json:object-to-json-transformer doc:name="Object to JSON"/>
+    </flow>
+    <flow name="updateItem" doc:name="updateItem">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="update" doc:name="HTTP"/>
+        <jdbc-ee:outbound-endpoint exchange-pattern="request-response" queryKey="updateItem" queryTimeout="-1" connector-ref="Database" doc:name="Update an item"/>
+        <jdbc-ee:outbound-endpoint exchange-pattern="request-response" queryKey="selectAll" queryTimeout="-1" connector-ref="Database" doc:name="List all items"/>
+        <json:object-to-json-transformer doc:name="Object to JSON"/>
+    </flow>
+    <flow name="deleteItem" doc:name="deleteItem">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="delete" doc:name="HTTP"/>
+        <jdbc-ee:outbound-endpoint exchange-pattern="request-response" queryKey="deleteItem" queryTimeout="-1" connector-ref="Database" doc:name="Delete an item"/>
+        <jdbc-ee:outbound-endpoint exchange-pattern="request-response" queryKey="selectAll" queryTimeout="-1" connector-ref="Database" doc:name="List all items"/>
+        <json:object-to-json-transformer doc:name="Object to JSON"/>
+    </flow>
+    <flow name="findItemById" doc:name="findItemById">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="find" doc:name="HTTP"/>
+        <jdbc-ee:outbound-endpoint exchange-pattern="request-response" queryKey="findById" queryTimeout="-1" connector-ref="Database" doc:name="Find an item"/>
+        <json:object-to-json-transformer doc:name="Object to JSON"/>
+    </flow>
     <flow name="RM" doc:name="RM">
         <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="11000" doc:name="HTTP localhost:11000"/>
         <jersey:resources doc:name="RM">

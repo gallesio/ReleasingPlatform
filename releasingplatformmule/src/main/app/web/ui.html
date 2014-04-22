@@ -1,0 +1,92 @@
+<!DOCTYPE>
+<html>
+<head>
+	<script type="text/javascript" src="jquery.js"></script>
+	<script type="text/javascript" src="jquery.jsonserialize.js"></script>
+	
+</head>
+<body>
+    <h2>User Interface - Entity Manager</h2>
+<!--     <form method="GET" id="listForm" action="http://localhost:8081/list">
+    	<div id="description">List all the components of EM : </div>
+    	<div id="resp"></div>
+        <input type="submit" value="OK"/>
+        
+        <script type="text/javascript">
+			$(document).ready(function(){
+				$(('#listForm')).submit(function(event) {
+					event.preventDefault();
+					
+					var $form = $(this),
+						url = $form.attr("action");
+						//variable = $form.serializeJSON(),
+						//json = JSON.stringify(variable);
+					
+					$.get(url, function(data) {
+						$('#resp').text(data);
+						alert("Data : " + JSON.stringify(data)));
+					});
+				});
+			});
+		</script> 
+    </form> -->
+    
+<!--     <form method="POST" id="createForm" action="http://localhost:8081/create">
+    	<div id="description2">Create a component in EM : </div>
+    	<input type="text" id="name" value="name"></input>
+    	<input type="text" id="type" value="type"></input>
+    	<input type="text" id="ref"  value="ref"></input>
+    	<div id="resp2"></div>
+        <input type="submit" value="OK"/>
+        
+        <script type="text/javascript">
+        alert("json = " + json);
+			$(document).ready(function(){
+				$(('#createForm')).submit(function(event) {
+					event.preventDefault();
+					
+					var $form = $(this),
+						url = $form.attr("action");
+						variable = $form.serializeJSON(),
+						json = JSON.stringify(variable);
+						
+						
+					
+					$.post(url, json, function(data) {
+						$('#resp').text(data);
+						alert("Data : " + JSON.stringify(data)));
+					});
+				});
+			});
+		</script> 
+    </form> -->
+    
+    <?php
+        	function processForm() {
+				$id = $_GET['id'];
+				$url = "create?id=" . $id;
+				header("Location: $url");
+				exit;
+			}
+	?>
+    
+    <form method="GET" id="findForm" action="http://localhost:8081/find">
+    	<div id="description">Find a component in list : </div>
+    	<input type="text" id="find" value="id"></input>
+    	<div id="resp"></div>
+        <input type="submit" value="OK"/>
+        
+        
+        
+        <script type="text/javascript">
+			$(document).ready(function(){
+				$("#findForm").submit(function(event)) {
+					var str = $("#findForm").serialize();
+		        	$("#resp").text(str);
+				});
+			});
+		</script> 
+    </form>
+
+</body>
+</html>
