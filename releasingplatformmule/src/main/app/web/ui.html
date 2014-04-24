@@ -7,7 +7,35 @@
 </head>
 <body>
     <h2>User Interface - Entity Manager</h2>
-<!--     <form method="GET" id="listForm" action="http://localhost:8081/list">
+
+    <form method="GET" id="findForm" action="http://localhost:8081/find">
+    	<div id="description">Find a component in list : </div>
+    	<input type="text" id="id" name="id" value="10"></input>
+    	<div id="resp"></div>
+        <input type="submit" value="OK"/>
+        
+        <script type="text/javascript">
+			$(document).ready(function(){
+				$("#findForm").submit(function(event) {
+					//event.preventDefault();
+					
+					var $form = $(this),
+						url = $form.attr("action"),
+						variable = $form.serializeJSON(),
+						json = JSON.stringify(variable);
+					
+					alert("json = " + json);
+					
+					$.get(url, function(data, status) {
+						$('#resp').text(data);
+						alert("Data : " + data + ", Status : " + status);
+					});
+				});
+			});
+		</script> 
+    </form>
+    
+    <!--     <form method="GET" id="listForm" action="http://localhost:8081/list">
     	<div id="description">List all the components of EM : </div>
     	<div id="resp"></div>
         <input type="submit" value="OK"/>
@@ -60,33 +88,6 @@
 			});
 		</script> 
     </form> -->
-    
-    <?php
-        	function processForm() {
-				$id = $_GET['id'];
-				$url = "create?id=" . $id;
-				header("Location: $url");
-				exit;
-			}
-	?>
-    
-    <form method="GET" id="findForm" action="http://localhost:8081/find">
-    	<div id="description">Find a component in list : </div>
-    	<input type="text" id="find" value="id"></input>
-    	<div id="resp"></div>
-        <input type="submit" value="OK"/>
-        
-        
-        
-        <script type="text/javascript">
-			$(document).ready(function(){
-				$("#findForm").submit(function(event)) {
-					var str = $("#findForm").serialize();
-		        	$("#resp").text(str);
-				});
-			});
-		</script> 
-    </form>
 
 </body>
 </html>
