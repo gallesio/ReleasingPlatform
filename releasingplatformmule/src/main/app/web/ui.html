@@ -27,11 +27,6 @@
 					}).done(function (resp) {
 						$('#list_resp').text(JSON.stringify(resp));
 					});
-					
-					/* $.get(url, function(data) {
-						$('#list_resp').text(JSON.stringify(data));
-						alert("Data : " + JSON.stringify(data));
-					}); */
 				});
 			});
 		</script> 
@@ -64,11 +59,6 @@
 					}).done(function(resp) {
 						$('#find_resp').text(JSON.stringify(resp));
 					});
-					
-					/* $.get(url, function(data, status) {
-						$('#find_resp').text(data);
-						alert("Data : " + data + ", Status : " + status);
-					}); */
 				});
 			});
 		</script> 
@@ -105,15 +95,6 @@
 					}).done(function(resp) {
 						$('#create_resp').text(JSON.stringify(resp));
 					});
-					
-						
-					/* alert("variable = " + variable);
-						alert("json = " + json); */
-					
-					/* $.get(url, function(data) {
-						$('#create_resp').text(data);
-						alert("Data : " + data);
-					}); */
 				});
 			});
 		</script>
