@@ -29,9 +29,9 @@ http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/jso
     <jdbc-ee:connector name="Database" dataSource-ref="MySQL_Data_Source" validateConnections="true" queryTimeout="-1" pollingFrequency="0" doc:name="Database">
         <jdbc-ee:query key="selectAll" value="SELECT * FROM component_table"/>
         <jdbc-ee:query key="insertItem" value="INSERT INTO component_table SET name=#[message.inboundProperties['name']], type=#[message.inboundProperties['type']], ref=#[message.inboundProperties['ref']]"/>
-        <jdbc-ee:query key="updateItem" value="UPDATE component_table SET name=#[message.inboundProperties['name']], type=#[message.inboundProperties['type']], ref=#[message.inboundProperties['ref']] WHERE id=#[message.inboundProperties['id']]"/>
-        <jdbc-ee:query key="deleteItem" value="DELETE FROM component_table WHERE id=#[message.inboundProperties['id']]"/>
-        <jdbc-ee:query key="findById" value="SELECT * FROM component_table  WHERE id=#[message.inboundProperties['id']]"/>
+        <jdbc-ee:query key="updateItem" value="UPDATE component_table SET name=#[message.inboundProperties['name']], type=#[message.inboundProperties['type']], ref=#[message.inboundProperties['ref']] WHERE comp_id=#[message.inboundProperties['comp_id']]"/>
+        <jdbc-ee:query key="deleteItem" value="DELETE FROM component_table WHERE comp_id=#[message.inboundProperties['comp_id']]"/>
+        <jdbc-ee:query key="findById" value="SELECT * FROM component_table  WHERE comp_id=#[message.inboundProperties['comp_id']]"/>
     </jdbc-ee:connector>
     <flow name="UserInterface" doc:name="UserInterface">
         <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="ui" doc:name="HTTP"/>
@@ -107,11 +107,6 @@ http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/jso
         <jersey:resources doc:name="RCM">
             <component class="services.RCM"/>
         </jersey:resources>
-    </flow>
-    <flow name="listAllProcess" doc:name="listAllProcess">
-        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8082" path="list" doc:name="HTTP"/>
-        <jdbc-ee:outbound-endpoint exchange-pattern="one-way" responseTimeout="" queryTimeout="-1" doc:name="Database"/>
-        <json:object-to-json-transformer doc:name="Object to JSON"/>
     </flow>
     <flow name="CheckOut" doc:name="CheckOut">
         <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="12001" doc:name="HTTP localhost:12001"/>

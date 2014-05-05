@@ -34,7 +34,7 @@
     
     <form method="GET" id="findForm" action="http://localhost:8081/find">
     	<div id="description">Find a component in list : </div>
-    	<input type="text" id="id" name="id" value="10"></input>
+    	<input type="text" id="comp_id" name="comp_id" value="10"></input>
     	<div id="find_resp"></div>
         <input type="submit" value="OK"/>
         
@@ -47,7 +47,7 @@
 						url = $form.attr("action"),
 						variable = $form.serializeJSON(),
 						json = JSON.stringify(variable),
-						id_value = document.getElementById('id').value;
+						id_value = document.getElementById('comp_id').value;
 					
 					alert("json = " + json);
 					
