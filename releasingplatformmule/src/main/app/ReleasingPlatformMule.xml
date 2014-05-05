@@ -108,6 +108,11 @@ http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/jso
             <component class="services.RCM"/>
         </jersey:resources>
     </flow>
+    <flow name="listAllProcess" doc:name="listAllProcess">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8082" path="list" doc:name="HTTP"/>
+        <jdbc-ee:outbound-endpoint exchange-pattern="one-way" responseTimeout="" queryTimeout="-1" doc:name="Database"/>
+        <json:object-to-json-transformer doc:name="Object to JSON"/>
+    </flow>
     <flow name="CheckOut" doc:name="CheckOut">
         <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="12001" doc:name="HTTP localhost:12001"/>
         <jersey:resources doc:name="Check Out">
