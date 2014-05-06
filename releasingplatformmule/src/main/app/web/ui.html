@@ -1,104 +1,213 @@
 <!DOCTYPE>
-<html>
+<html lang="en">
 <head>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    <title> Release Manager </title>
+    
 	<script type="text/javascript" src="jquery.js"></script>
 	<script type="text/javascript" src="jquery.jsonserialize.js"></script>
+	<script type="text/javascript" src="./dynatable/jquery.dynatable.js"></script>
 	
+	<!-- Bootstrap core CSS -->
+    <link href="./bootstrap/css/bootstrap.min.css" type="text/css" rel="stylesheet">
+    
+    <!-- Custom styles for this template -->
+    <link href="dashboard.css" type="text/css" rel="stylesheet">
+    
 </head>
 <body>
-    <h2>User Interface - Entity Manager</h2>
-    
-	<form method="GET" id="listForm" action="http://localhost:8081/list">
-    	<div id="description">List all the components of EM : </div>
-    	<div id="list_resp"></div>
-        <input type="submit" value="OK"/>
-        
-        <script type="text/javascript">
-			$(document).ready(function(){
-				$(('#listForm')).submit(function(event) {
-					event.preventDefault();
-					
-					var $form = $(this),
-						url = $form.attr("action");
-					
-					$.ajax({
-						url: url,
-						type: "GET"
-					}).done(function (resp) {
-						$('#list_resp').text(JSON.stringify(resp));
-					});
-				});
-			});
-		</script> 
-    </form>
-    
-    <form method="GET" id="findForm" action="http://localhost:8081/find">
-    	<div id="description">Find a component in list : </div>
-    	<input type="text" id="comp_id" name="comp_id" value="10"></input>
-    	<div id="find_resp"></div>
-        <input type="submit" value="OK"/>
-        
-        <script type="text/javascript">
-			$(document).ready(function(){
-				$('#findForm').submit(function(event) {
-					event.preventDefault();
-					
-					var $form = $(this),
-						url = $form.attr("action"),
-						variable = $form.serializeJSON(),
-						json = JSON.stringify(variable),
-						id_value = document.getElementById('comp_id').value;
-					
-					alert("json = " + json);
-					
-					$.ajax({
-						url: url,
-						type: "GET",
-						data: { id: id_value }
 
-					}).done(function(resp) {
-						$('#find_resp').text(JSON.stringify(resp));
-					});
-				});
-			});
-		</script> 
-    </form>
+	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#"> Releasing Manager </a>
+      </div>
+    </div>
+  </div>
     
-	<form method="GET" id="createForm" action="http://localhost:8081/create">
-    	<div id="description">Create a component in EM : </div>
-    	<input type="text" id="name" value="component1"></input>
-    	<input type="text" id="type" value="java"></input>
-    	<input type="text" id="ref"  value="github"></input>
-    	<div id="create_resp"></div>
-        <input type="submit" value="OK"/>
-        
-        <script type="text/javascript">
-			$(document).ready(function(){
-				$('#createForm').submit(function(event) {
-					event.preventDefault();
-					
-					var $form = $(this),
-						url = $form.attr("action"),
-						variable = $form.serializeJSON(),
-						json = JSON.stringify(variable),
-						name_value = document.getElementById('name').value,
-						type_value = document.getElementById('type').value,
-						ref_value  = document.getElementById('ref').value;
-					
-					$.ajax({
-						url: url,
-						type: "GET",
-						data: { name: name_value,
-								type: type_value,
-								ref: ref_value
-							  },
-					}).done(function(resp) {
-						$('#create_resp').text(JSON.stringify(resp));
-					});
-				});
-			});
-		</script>
-    </form>
+  <div class="container-fluid">
+    <div class="row">
+
+      <div class="col-sm-3 col-md-2 sidebar">
+        <ul class="nav nav-sidebar">
+          <li class="active"><a href="#">Entity Manager</a></li>
+          <li><a href="#">Change Manager</a></li>
+          <li><a href="#">Release Manager</a></li>
+          <li><a href="#">Release Construction Manager</a></li>
+        </ul>
+      </div>
+
+      <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <h1 class="page-header">Entity Manager</h1>
+
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#"><span class="glyphicon glyphicon-list"></span>   List all components</a></li>
+            <li><a href="#"><span class="glyphicon glyphicon-plus"></span>   Create a component</a></li>
+            <li><a href="#"><span class="glyphicon glyphicon-search"></span>   Find/view a component</a></li>
+        </ul>
+
+        <br/>
+
+        <div class="panel panel-default" style="padding:15px; border-style:none">
+          <form class="form-horizontal" method="GET" id="listForm" action="http://localhost:8081/list">
+            <button type="submit" class="btn">List all the components of Entity Manager (EM)</button>
+            <div id="list_resp" class="modal-body" style="display:none;"></div>
+            
+            <div class="table-responsive">
+	          <table id="list_table" class="table table-striped">
+	          	<thead>
+	          		<th> Comp_id </th>
+	          		<th> Name </th>
+	          		<th> Type </th>
+	          		<th> Ref </th>
+	          	</thead>
+	          	<tbody>
+	          	</tbody>
+	          </table>
+          	</div>
+
+            <script type="text/javascript">
+              $(document).ready(function(){
+                $('#listForm').submit(function(event) {
+                  event.preventDefault();
+                  
+                  var $form = $(this),
+                      url = $form.attr("action"),
+                      $list_resp = $('#list_resp');
+                  
+                  $.ajax({
+                    url: url,
+                    type: "GET"
+                  }).done(function (resp) {
+                	var list_resp_json = JSON.stringify(resp);
+                    $list_resp.show().text(list_resp_json);
+                    
+                    var $response = $('#list_resp'),
+                    	myResponse = JSON.parse($response.text()),
+                    	$resp_j = $response.text();
+                    
+                    /* alert($response);
+                    alert($response.text());
+                    alert(myResponse);
+                    alert(JSON.stringify(myResponse));
+                    alert($resp_j); */
+                    
+                    //alert(myResponse);
+                    
+                    $('#list_table').dynatable({
+                		dataset: {
+                			records: myResponse
+                		}
+                	});
+                  });
+                });
+              });
+            </script> 
+          </form>
+        </div>
+      </div>
+    </div>
+
+<!--       <form method="GET" id="listForm" action="http://localhost:8081/list">
+        <div id="description">List all the components of EM : </div>
+        <div id="list_resp"></div>
+          <input type="submit" value="OK"/>
+          
+          <script type="text/javascript">
+        $(document).ready(function(){
+          $(('#listForm')).submit(function(event) {
+            event.preventDefault();
+            
+            var $form = $(this),
+              url = $form.attr("action");
+            
+            $.ajax({
+              url: url,
+              type: "GET"
+            }).done(function (resp) {
+              $('#list_resp').text(JSON.stringify(resp));
+            });
+          });
+        });
+      </script> 
+      </form>
+      
+      <form method="GET" id="findForm" action="http://localhost:8081/find">
+        <div id="description">Find a component in list : </div>
+        <input type="text" id="comp_id" name="comp_id" value="10"></input>
+        <div id="find_resp"></div>
+          <input type="submit" value="OK"/>
+          
+          <script type="text/javascript">
+        $(document).ready(function(){
+          $('#findForm').submit(function(event) {
+            event.preventDefault();
+            
+            var $form = $(this),
+              url = $form.attr("action"),
+              variable = $form.serializeJSON(),
+              json = JSON.stringify(variable),
+              id_value = document.getElementById('comp_id').value;
+            
+            alert("json = " + json);
+            
+            $.ajax({
+              url: url,
+              type: "GET",
+              data: { id: id_value }
+
+            }).done(function(resp) {
+              $('#find_resp').text(JSON.stringify(resp));
+            });
+          });
+        });
+      </script> 
+      </form>
+      
+    <form method="GET" id="createForm" action="http://localhost:8081/create">
+        <div id="description">Create a component in EM : </div>
+        <input type="text" id="name" value="component1"></input>
+        <input type="text" id="type" value="java"></input>
+        <input type="text" id="ref"  value="github"></input>
+        <div id="create_resp"></div>
+          <input type="submit" value="OK"/>
+          
+          <script type="text/javascript">
+        $(document).ready(function(){
+          $('#createForm').submit(function(event) {
+            event.preventDefault();
+            
+            var $form = $(this),
+              url = $form.attr("action"),
+              variable = $form.serializeJSON(),
+              json = JSON.stringify(variable),
+              name_value = document.getElementById('name').value,
+              type_value = document.getElementById('type').value,
+              ref_value  = document.getElementById('ref').value;
+            
+            $.ajax({
+              url: url,
+              type: "GET",
+              data: { name: name_value,
+                  type: type_value,
+                  ref: ref_value
+                  },
+            }).done(function(resp) {
+              $('#create_resp').text(JSON.stringify(resp));
+            });
+          });
+        });
+      </script>
+      </form> -->
+    </div>
 
 </body>
 </html>
