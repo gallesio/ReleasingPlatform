@@ -69,7 +69,8 @@
       recordCountPlacement: 'after',
       paginationLinkTarget: null,
       paginationLinkPlacement: 'after',
-      paginationClass: 'dynatable-pagination-links',
+      //paginationClass: 'dynatable-pagination-links',
+      paginationClass: 'pagination',
       paginationLinkClass: 'dynatable-page-link',
       paginationPrevClass: 'dynatable-page-prev',
       paginationNextClass: 'dynatable-page-next',
@@ -120,7 +121,8 @@
       page: 'page',
       perPage: 'perPage',
       offset: 'offset',
-      records: 'records',
+      //records: 'records',
+      records : 'elements',
       record: null,
       queryRecordCount: 'queryRecordCount',
       totalRecordCount: 'totalRecordCount'
@@ -1339,7 +1341,8 @@
             (pages + 1) - settings.inputs.paginationGap[3]
           ];
 
-      pageLinks += '<li><span>Pages: </span></li>';
+      //pageLinks += '<li><span>Pages: </span></li>';
+      pageLinks += '';
 
       for (var i = 1; i <= pages; i++) {
         if ( (i > breaks[0] && i < breaks[1]) || (i > breaks[2] && i < breaks[3])) {
