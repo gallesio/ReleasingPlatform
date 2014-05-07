@@ -1,122 +1,49 @@
 <!DOCTYPE>
-	<html lang="en">
- 	<head>
+<html lang="en">
+	<head>
 		<meta charset="utf-8">
-	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-	    
-	    <title> Release Manager </title>
-	    
- 		<script type="text/javascript" src="jquery.js"></script>
- 		<script type="text/javascript" src="jquery.jsonserialize.js"></script>
-		<script type="text/javascript" src="./dynatable/jquery.dynatable.js"></script>
- 		
+    	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    	<!-- jQuery -->
+		<script type="text/javascript" src="jquery.js"></script>
 		<!-- Bootstrap core CSS -->
 	    <link href="./bootstrap/css/bootstrap.min.css" type="text/css" rel="stylesheet">
- 	    
-
 	    <!-- Custom styles for this template -->
 	    <link href="dashboard.css" type="text/css" rel="stylesheet">
-	    </head>
-	    <body>
- 	    
+	    
+	    <title> Releasing Manager </title>
+	</head>
+	
+	<body>
 		<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-	    <div class="container-fluid">
-	      <div class="navbar-header">
-	        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-	          <span class="sr-only">Toggle navigation</span>
-	          <span class="icon-bar"></span>
-	          <span class="icon-bar"></span>
-	          <span class="icon-bar"></span>
-	        </button>
-	        <a class="navbar-brand" href="#"> Releasing Manager </a>
-	      </div>
-	    </div>
-	  </div>
-
-	  <div class="container-fluid">
-	    <div class="row">
-	
-	      <div class="col-sm-3 col-md-2 sidebar">
-	        <ul class="nav nav-sidebar">
-	          <li class="active"><a href="#">Entity Manager</a></li>
-	          <li><a href="#">Change Manager</a></li>
-	          <li><a href="#">Release Manager</a></li>
-	          <li><a href="#">Release Construction Manager</a></li>
-	        </ul>
-	      </div>
-	
-	      <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-	        <h1 class="page-header">Entity Manager</h1>
-	
-	        <ul class="nav nav-tabs">
-	            <li class="active"><a href="#"><span class="glyphicon glyphicon-list"></span>   List all components</a></li>
-	            <li><a href="#"><span class="glyphicon glyphicon-plus"></span>   Create a component</a></li>
-	            <li><a href="#"><span class="glyphicon glyphicon-search"></span>   Find/view a component</a></li>
-	        </ul>
-	
-	        <br/>
-	
-	        <div class="panel panel-default" style="padding:15px; border-style:none">
-	          <form class="form-horizontal" method="GET" id="listForm" action="http://localhost:8081/list">
-	            <button type="submit" class="btn">List all the components</button>
-	            <div id="list_resp" class="modal-body" style="display:none;"></div>
-	            
-	            <div class="table-responsive">
-		          <table id="list_table" class="table table-striped">
-		          	<thead>
-		          		<th> Comp_id </th>
-		          		<th> Name </th>
-		          		<th> Type </th>
-		          		<th> Ref </th>
-		          	</thead>
-		          	<tbody>
-		          	</tbody>
-		          </table>
-	          	</div>
-	
-	            <script type="text/javascript">
-	              $(document).ready(function(){
-	                $('#listForm').submit(function(event) {
-	                  event.preventDefault();
-	                  
-	                  var $form = $(this),
-	                      url = $form.attr("action"),
-	                      $list_resp = $('#list_resp');
-	                  
-	                  $.ajax({
-	                    url: url,
-	                    type: "GET"
-	                  }).done(function (resp) {
-	                	var list_resp_json = JSON.stringify(resp);
-	                    $list_resp.show().text(list_resp_json);
-	                    $list_resp.hide();
-	                    
-	                    var $response = $('#list_resp'),
-	                    	myResponse = JSON.parse($response.text()),
-	                    	$resp_j = $response.text();
-	                    
-	                    /* alert($response);
-	                    alert($response.text());
-	                    alert(myResponse);
-	                    alert(JSON.stringify(myResponse));
-	                    alert($resp_j); */
-	                    
-	                    //alert(myResponse);
-	                    
-	                    $('#list_table').dynatable({
-	                		dataset: {
-	                			records: myResponse
-	                		}
-	                	});
-	                  });
-	                });
-	              });
-	            </script> 
-	          </form>
-	        </div>
-	      </div>
-	    </div>
-	    </div>
- 	
- 	</body>
- 	</html>
+		    <div class="container-fluid">
+		      <div class="navbar-header">
+		        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+		          <span class="sr-only">Toggle navigation</span>
+		          <span class="icon-bar"></span>
+		          <span class="icon-bar"></span>
+		          <span class="icon-bar"></span>
+		        </button>
+		        <a class="navbar-brand" href="#"> Releasing Manager </a>
+		      </div>
+		    </div>
+  		</div>
+		<div class="container-fluid">
+			<div class="row">
+			    <div class="col-sm-3 col-md-2 sidebar">
+			      <ul class="nav nav-sidebar">
+			        <li class="active"><a href="http://localhost:8081/em" id="entity_navbar">Entity Manager</a></li>
+			        <li><a href="http://localhost:8081/cm">Change Manager</a></li>
+			        <li><a href="http://localhost:8081/rm">Release Manager</a></li>
+			        <li><a href="http://localhost:8081/rcm">Release Construction Manager</a></li>
+			      </ul>
+			    </div>
+				<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+					<div class="jumbotron" id="jumbo">
+				  		<h1> Welcome to the Releasing Manager ! </h1>
+				  	</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
