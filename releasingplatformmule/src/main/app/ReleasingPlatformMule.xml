@@ -38,10 +38,15 @@ http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/jso
         <filter ref="Not" doc:name="Exclude /favicon.ico"/>
         <http:static-resource-handler resourceBase="${app.home}/web" defaultFile="ui.html" doc:name="UI"/>
     </flow>
-    <flow name="EntityManagerInterface" doc:name="EntityManagerInterface">
-        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="em/l" doc:name="HTTP localhost:8081/em"/>
-        <filter ref="Not" doc:name="Excluse /favicon.ico"/>
-        <http:static-resource-handler resourceBase="${app.home}/web" defaultFile="em_list.html" doc:name="EM"/>
+    <flow name="EntityManagerInterface-List" doc:name="EntityManagerInterface-List">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="em/l" doc:name="HTTP localhost:8081/em/l"/>
+        <filter ref="Not" doc:name="Exclude /favicon.ico"/>
+        <http:static-resource-handler resourceBase="${app.home}/web" defaultFile="em_list.html" doc:name="EM List"/>
+    </flow>
+    <flow name="EntityManagerUserInterface-Create" doc:name="EntityManagerUserInterface-Create">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="em/c" doc:name="HTTP localhost:8081/em/c"/>
+        <filter ref="Not" doc:name="Exclude /favicon.ico"/>
+        <http:static-resource-handler resourceBase="${app.home}/web" defaultFile="em_create.html" doc:name="EM Create"/>
     </flow>
     <flow name="listAllComponents" doc:name="listAllComponents">
         <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="list" doc:name="HTTP"/>

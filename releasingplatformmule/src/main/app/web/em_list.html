@@ -48,13 +48,13 @@
 				<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 					<h1 class="page-header">Entity Manager</h1>
 	
-					<ul class="nav nav-tabs">
-						<li id="list_li"><a href="http://localhost:8081/em/l" id="list_ref"><span
-								class="glyphicon glyphicon-list"></span> List all components</a></li>
-						<li id="create_li"><a href="http://localhost:8081/em/l" id="create_ref"><span class="glyphicon glyphicon-plus"></span>
-								Create a component</a></li>
-						<li id="find_li"><a href="http://localhost:8081/em/l" id="find_ref"><span class="glyphicon glyphicon-search"></span>
-								Find/view a component</a></li>
+					<ul class="nav nav-tabs" id="navigation_tabs">
+						<li id="list_li" class="active"><a href="http://localhost:8081/em/l" id="list_ref"><span class="glyphicon glyphicon-list">
+								</span> List all components </a></li>
+						<li id="create_li"><a href="http://localhost:8081/em/c" id="create_ref"><span class="glyphicon glyphicon-plus">
+								</span> Create a component </a></li>
+						<li id="find_li"><a href="http://localhost:8081/em/f" id="find_ref"><span class="glyphicon glyphicon-search">
+								</span> Find/view a component </a></li>
 					</ul>
 	
 					<br />
@@ -199,38 +199,6 @@
 						$('#find_resp').text(JSON.stringify(resp));
 					});
 				});
-
-	          	// Hide/show content respecting with list/create/find
-	          	/* $('#list_ref').click(function() {
-					// unable the other tabs and active the current one
-					$('#create_li').removeClass('active');
-					$('#find_li').removeClass('active');
-					$('#list_li').addClass('active');
-					// hide the other div and show the current one
-					$('#create_div').hide();
-					$('#find_div').hide();
-					$('#list_div').show();
-				});
-				$('#create_ref').click(function() {
-					// unable the other tabs and active the current one
-					$('#list_li').removeClass('active');
-					$('#find_li').removeClass('active');
-					$('#create_li').addClass('active');
-					// hide the other div and show the current one
-					$('#list_div').hide();
-					$('#find_div').hide();
-					$('#create_div').show();
-				});
-				$('#find_ref').click(function() {
-					// unable the other tabs and active the current one
-					$('#list_li').removeClass('active');
-					$('#create_li').removeClass('active');
-					$('#find_li').addClass('active');
-					// hide the other div and show the current one
-					$('#list_div').hide();
-					$('#create_div').hide();
-					$('#find_div').show();
-				}); */
 			});
 		</script>
 
