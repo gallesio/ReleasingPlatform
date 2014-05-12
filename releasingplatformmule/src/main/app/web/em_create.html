@@ -64,6 +64,9 @@
 						style="padding: 15px; border-style: none"
 						id="create_div">
 						
+						<div class="alert alert-success" id="success"></div>
+						<div class="alert alert-danger"  id="error"></div>
+						
 						<form class="form-inline" method="GET" id="createForm" 
 							action="http://localhost:8081/create">
 							<div class="form-group">
@@ -85,6 +88,10 @@
 
 		<script type="text/javascript">
 			$(document).ready(function(){
+				var $success = $('#success'),
+					$error	 = $('#error');
+				$success.hide();
+				$error.hide();
 				
 				// Create form script
 				$('#createForm').submit(function(event) {
@@ -92,24 +99,35 @@
 		            
 		            var $form = $(this),
 			            url = $form.attr("action"),
+			            $create_resp = $('#create_resp'),
 			            variable = $form.serializeJSON(),
 			            json = JSON.stringify(variable),
 			            name_value = document.getElementById('name').value,
 			            type_value = document.getElementById('type').value,
 			            ref_value  = document.getElementById('ref').value;
 		            
-		            $.ajax({
-		            	url: url,
-		            		type: "GET",
-		            		data: { name: name_value,
-		            				type: type_value,
-		           					ref: ref_value
-		            			  },
-		            })
+		            if (name_value == "" || type_value == "" || ref_value == "") {
+		            	$error.html("<span class='glyphicon glyphicon-remove'></span> &nbsp; Warning ! Your component is not created because one or some fields are empty !");
+		            	$error.show();
+		            	$success.hide();
+		            } else {
+		            	$.ajax({
+			            	url: url,
+			            		type: "GET",
+			            		data: { name: name_value,
+			            				type: type_value,
+			           					ref: ref_value
+			            			  },
+			            })
 
-		            .done(function(resp) {
-		            	$('#create_resp').text(JSON.stringify(resp));
-		            });
+			            .done(function(resp) {
+			            	$create_resp.text(JSON.stringify(resp));
+			            	$success.html("<span class='glyphicon glyphicon-ok'></span> &nbsp; The component <b>" + name_value + "</b> was created successfully ! See the <a href='http://localhost:8081/em/l'>components list</a> for more details. ");
+			            	$success.show();
+			            	$error.hide();
+			            	//$(location).attr('href',"http://localhost:8081/em/l");
+			            });
+		            }
 		        });
 			});
 		</script>
