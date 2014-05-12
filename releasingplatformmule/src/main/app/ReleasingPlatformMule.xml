@@ -38,10 +38,10 @@ http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/jso
         <filter ref="Not" doc:name="Exclude /favicon.ico"/>
         <http:static-resource-handler resourceBase="${app.home}/web" defaultFile="ui.html" doc:name="UI"/>
     </flow>
-    <flow name="ReleasingPlatformMuleFlow1" doc:name="ReleasingPlatformMuleFlow1">
-        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="em" doc:name="HTTP localhost:8081/em"/>
+    <flow name="EntityManagerInterface" doc:name="EntityManagerInterface">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="em/l" doc:name="HTTP localhost:8081/em"/>
         <filter ref="Not" doc:name="Excluse /favicon.ico"/>
-        <http:static-resource-handler resourceBase="${app.home}/web" defaultFile="em.html" doc:name="EM"/>
+        <http:static-resource-handler resourceBase="${app.home}/web" defaultFile="em_list.html" doc:name="EM"/>
     </flow>
     <flow name="listAllComponents" doc:name="listAllComponents">
         <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="list" doc:name="HTTP"/>

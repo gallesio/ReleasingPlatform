@@ -50,18 +50,19 @@
 					<h1 class="page-header">Entity Manager</h1>
 	
 					<ul class="nav nav-tabs">
-						<li class="active"><a href="#"><span
+						<li class="active"><a href="http://localhost:8081/em/l"><span
 								class="glyphicon glyphicon-list"></span> List all components</a></li>
-						<li><a href="#"><span class="glyphicon glyphicon-plus"></span>
+						<li><a href="http://localhost:8081/em/c"><span class="glyphicon glyphicon-plus"></span>
 								Create a component</a></li>
-						<li><a href="#"><span class="glyphicon glyphicon-search"></span>
+						<li><a href="http://localhost:8081/em/f"><span class="glyphicon glyphicon-search"></span>
 								Find/view a component</a></li>
 					</ul>
 	
 					<br />
 	
 					<div class="panel panel-default"
-						style="padding: 15px; border-style: none">
+						style="padding: 15px; border-style: none"
+						id="list_div">
 						<form class="form-horizontal" method="GET" id="listForm"
 							action="http://localhost:8081/list">
 							<button type="submit" class="btn">List all the components</button>
@@ -115,9 +116,49 @@
 						</form>
 						
 					</div>
+					
+					<div class="panel panel-default"
+						style="padding: 15px; border-style: none"
+						id="create_div">
+						
+						<form class="form-horizontal" method="GET" id="createForm" 
+							action="http://localhost:8081/create">
+	        				<input type="text" id="name" value="component1"></input>
+	        				<input type="text" id="type" value="java"></input>
+	        				<input type="text" id="ref"  value="github"></input>
+	        				<div id="create_resp" class="modal-body" style="display: none;"></div>
+	          				<button type="submit" class="btn">Create a new component</button>
+	          
+	          				<script type="text/javascript">
+						        $(document).ready(function(){
+						          $('#createForm').submit(function(event) {
+						            event.preventDefault();
+						            
+						            var $form = $(this),
+						              url = $form.attr("action"),
+						              variable = $form.serializeJSON(),
+						              json = JSON.stringify(variable),
+						              name_value = document.getElementById('name').value,
+						              type_value = document.getElementById('type').value,
+						              ref_value  = document.getElementById('ref').value;
+						            
+						            $.ajax({
+						              url: url,
+						              type: "GET",
+						              data: { name: name_value,
+						                  type: type_value,
+						                  ref: ref_value
+						                  },
+						            }).done(function(resp) {
+						              $('#create_resp').text(JSON.stringify(resp));
+						            });
+						          });
+						        });
+						     </script>
+						</form>
+					</div>
 				</div>
 			</div>
 		</div>
-	
 	</body>
 </html>
