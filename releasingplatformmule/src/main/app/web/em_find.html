@@ -51,29 +51,27 @@
 					<ul class="nav nav-tabs" id="navigation_tabs">
 						<li id="list_li"><a href="http://localhost:8081/em/l" id="list_ref"><span class="glyphicon glyphicon-list">
 								</span> List all components </a></li>
-						<li id="create_li" class="active"><a href="http://localhost:8081/em/c" id="create_ref"><span class="glyphicon glyphicon-plus">
+						<li id="create_li"><a href="http://localhost:8081/em/c" id="create_ref"><span class="glyphicon glyphicon-plus">
 								</span> Create a component </a></li>
-						<li id="find_li"><a href="http://localhost:8081/em/f" id="find_ref"><span class="glyphicon glyphicon-search">
+						<li id="find_li" class="active"><a href="http://localhost:8081/em/f" id="find_ref"><span class="glyphicon glyphicon-search">
 								</span> Find/view a component </a></li>
 					</ul>
 	
 					<br />
-					
-					<!-- Content for create form -->
+
+					<!-- Content for find form -->
 					<div class="panel panel-default"
 						style="padding: 15px; border-style: none"
-						id="create_div">
+						id="find_div">
 						
-						<form class="form-inline" method="GET" id="createForm" 
-							action="http://localhost:8081/create">
+						<form class="form-inline" method="GET" id="findForm" 
+							action="http://localhost:8081/find">
 							<div class="form-group">
-		        				<input type="text" class="form-control" id="name" value="component1"></input>
-		        				<input type="text" class="form-control" id="type" value="java"></input>
-		        				<input type="text" class="form-control" id="ref"  value="github"></input>
-	        					<div id="create_resp" class="modal-body" style="display: none;"></div>
-	          					<button type="submit" class="btn">Create a new component</button>
+	        					<input type="text" class="form-control" id="comp_id" name="comp_id" value="50"></input>
+	        					<div id="find_resp" class="modal-body" style="display: none;"></div>
+	          					<button type="submit" class="btn">Find a component</button>
 	          				</div>
-						</form>
+	          			</form>
 					</div>
 				</div>
 			</div>
@@ -85,32 +83,27 @@
 
 		<script type="text/javascript">
 			$(document).ready(function(){
-				
-				// Create form script
-				$('#createForm').submit(function(event) {
-		            event.preventDefault();
-		            
-		            var $form = $(this),
-			            url = $form.attr("action"),
-			            variable = $form.serializeJSON(),
-			            json = JSON.stringify(variable),
-			            name_value = document.getElementById('name').value,
-			            type_value = document.getElementById('type').value,
-			            ref_value  = document.getElementById('ref').value;
-		            
-		            $.ajax({
-		            	url: url,
-		            		type: "GET",
-		            		data: { name: name_value,
-		            				type: type_value,
-		           					ref: ref_value
-		            			  },
-		            })
 
-		            .done(function(resp) {
-		            	$('#create_resp').text(JSON.stringify(resp));
-		            });
-		        });
+				// Find form script
+	          	$('#findForm').submit(function(event) {
+	            	event.preventDefault();
+	            
+					var $form = $(this),
+						url = $form.attr("action"),
+						variable = $form.serializeJSON(),
+						json = JSON.stringify(variable),
+						id_value = document.getElementById('comp_id').value;
+	            
+					$.ajax({
+						url: url,
+						type: "GET",
+						data: { id: id_value }
+					})
+
+					.done(function(resp) {
+						$('#find_resp').text(JSON.stringify(resp));
+					});
+				});
 			});
 		</script>
 	</body>
