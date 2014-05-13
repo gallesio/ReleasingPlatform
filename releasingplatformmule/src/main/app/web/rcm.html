@@ -1,0 +1,34 @@
+<!DOCTYPE>
+<html>
+<head>
+	<script type="text/javascript" src="jquery.js"></script>
+	<script type="text/javascript" src="jquery.jsonserialize.js"></script>
+	
+</head>
+<body>
+    <h2>Release Construction Manager - Web Interface</h2>
+    <form method="POST" id="myForm" action="http://localhost:14000/RCM">
+    	<input type="text" id="processDefinitionKey" name="processDefinitionKey" value="releasingConstructionProcess" size="50"/>
+    	<div id="resp"></div>
+        <input type="submit" value="OK"/>
+        
+        <script type="text/javascript">
+			$(document).ready(function(){
+				$(('#myForm')).submit(function(event) {
+					event.preventDefault();
+					
+					var $form = $(this),
+						url = $form.attr("action"),
+						variable = $form.serializeJSON(),
+						json = JSON.stringify(variable);
+					
+					$.post(url, json, function(data, status) {
+						$('#resp').text(data);
+						alert("Data : " + data + ", Status : " + status);
+					});
+				});
+			});
+		</script> 
+    </form>
+</body>
+</html>

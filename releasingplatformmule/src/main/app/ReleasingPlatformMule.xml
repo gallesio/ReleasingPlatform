@@ -53,6 +53,11 @@ http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/jso
         <filter ref="Not" doc:name="Exclude /favicon.ico"/>
         <http:static-resource-handler resourceBase="${app.home}/web" defaultFile="em_find.html" doc:name="EM Find"/>
     </flow>
+    <flow name="ChangeManagerUserInterface" doc:name="ChangeManagerUserInterface">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" doc:name="HTTP localhost:8081/cm"/>
+        <filter ref="Not" doc:name="Exclude /favicon.ico"/>
+        <http:static-resource-handler resourceBase="${app.home}/web" defaultFile="cm.html" doc:name="CM"/>
+    </flow>
     <flow name="listAllComponents" doc:name="listAllComponents">
         <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="list" doc:name="HTTP"/>
         <jdbc-ee:outbound-endpoint exchange-pattern="request-response" queryTimeout="-1" connector-ref="Database" doc:name="List all components" queryKey="selectAll"/>
@@ -112,9 +117,9 @@ http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/jso
         </jersey:resources>
     </flow>
     <flow name="RCMUserInterface" doc:name="RCMUserInterface">
-        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="13000" path="RCMUserInterface" doc:name="HTTP localhost:13000"/>
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="rcm" doc:name="HTTP localhost:8081/rcm"/>
         <filter ref="Not" doc:name="Exclude Favicon.ico"/>
-        <http:static-resource-handler resourceBase="${app.home}/web" defaultFile="index.html" doc:name="RCM User Interface"/>
+        <http:static-resource-handler resourceBase="${app.home}/web" defaultFile="rcm.html" doc:name="RCM"/>
     </flow>
     <flow name="RCM" doc:name="RCM">
         <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="14000" doc:name="HTTP localhost:14000"/>

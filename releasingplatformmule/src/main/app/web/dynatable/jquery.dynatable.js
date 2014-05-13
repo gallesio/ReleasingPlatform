@@ -83,7 +83,7 @@
       searchPlacement: 'before',
       perPageTarget: null,
       perPagePlacement: 'before',
-      perPageText: 'Show: ',
+      perPageText: '&nbsp; Show: ',
       recordCountText: 'Showing ',
       processingText: 'Processing...'
     },
@@ -98,7 +98,7 @@
       queries: {},
       queryRecordCount: null,
       page: null,
-      perPageDefault: 10,
+      perPageDefault: 20,
       perPageOptions: [10,20,50,100],
       sorts: {},
       sortsKeys: null,
