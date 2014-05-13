@@ -49,11 +49,11 @@
 					<h1 class="page-header">Release Construction Manager</h1>
 	
 					<ul class="nav nav-pills" id="navigation_tabs">
-						<li id="list_li"><a href="#" id="list_ref"><span class="glyphicon glyphicon-list">
+						<li id="list_li"><a href="http://localhost:8081/rcm/l" id="list_ref"><span class="glyphicon glyphicon-list">
 								</span> List all processes </a></li>
-						<li id="create_li" class="active"><a href="#" id="create_ref"><span class="glyphicon glyphicon-plus">
+						<li id="create_li" class="active"><a href="http://localhost:8081/rcm/c" id="create_ref"><span class="glyphicon glyphicon-plus">
 								</span> Instance a process </a></li>
-						<li id="find_li"><a href="#" id="find_ref"><span class="glyphicon glyphicon-search">
+						<li id="find_li"><a href="http://localhost:8081/rcm/f" id="find_ref"><span class="glyphicon glyphicon-search">
 								</span> Find/view a process </a></li>
 					</ul>
 	
@@ -66,15 +66,15 @@
 							id="find_div">
 							<div class="well bs-component">
 								<form class="form-inline" method="POST" id="myForm" 
-									action="http://localhost:14000/RCM">
+									action="http://localhost:14000/RCM/instProc">
 									<div class="form-group">
 			        					<input type="text" class="form-control" id="processDefinitionKey" 
 			        						name="processDefinitionKey" value="releasingConstructionProcess"
 			        						size="80"></input>
-			        					<div id="resp" class="modal-body" style="display: none;"></div>
 			          					<button type="submit" class="btn btn-sm">Instance a process</button>
 			          				</div>
 			          			</form>
+			          			<div id="resp" class="modal-body"></div>
 			          		</div>
 						</div>
 					</div>
