@@ -54,9 +54,19 @@ http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/jso
         <http:static-resource-handler resourceBase="${app.home}/web" defaultFile="em_find.html" doc:name="EM Find"/>
     </flow>
     <flow name="ChangeManagerUserInterface" doc:name="ChangeManagerUserInterface">
-        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" doc:name="HTTP localhost:8081/cm"/>
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="cm" doc:name="HTTP localhost:8081/cm"/>
         <filter ref="Not" doc:name="Exclude /favicon.ico"/>
         <http:static-resource-handler resourceBase="${app.home}/web" defaultFile="cm.html" doc:name="CM"/>
+    </flow>
+    <flow name="RMUserInterface" doc:name="RMUserInterface">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="rm" doc:name="HTTP localhost:8081/rm"/>
+        <filter ref="Not" doc:name="Exclude Favicon.ico"/>
+        <http:static-resource-handler resourceBase="${app.home}/web" defaultFile="rm.html" doc:name="RM"/>
+    </flow>
+    <flow name="RCMUserInterface" doc:name="RCMUserInterface">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="rcm" doc:name="HTTP localhost:8081/rcm"/>
+        <filter ref="Not" doc:name="Exclude Favicon.ico"/>
+        <http:static-resource-handler resourceBase="${app.home}/web" defaultFile="rcm.html" doc:name="RCM"/>
     </flow>
     <flow name="listAllComponents" doc:name="listAllComponents">
         <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="list" doc:name="HTTP"/>
@@ -115,11 +125,6 @@ http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/jso
         <jersey:resources doc:name="Deploy">
             <component class="services.DeployResource"/>
         </jersey:resources>
-    </flow>
-    <flow name="RCMUserInterface" doc:name="RCMUserInterface">
-        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="rcm" doc:name="HTTP localhost:8081/rcm"/>
-        <filter ref="Not" doc:name="Exclude Favicon.ico"/>
-        <http:static-resource-handler resourceBase="${app.home}/web" defaultFile="rcm.html" doc:name="RCM"/>
     </flow>
     <flow name="RCM" doc:name="RCM">
         <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="14000" doc:name="HTTP localhost:14000"/>
