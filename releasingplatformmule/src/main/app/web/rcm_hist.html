@@ -49,9 +49,9 @@
 					<h1 class="page-header">Release Construction Manager</h1>
 	
 					<ul class="nav nav-pills" id="navigation_tabs">
-						<li id="list_li" class="active"><a href="http://localhost:8081/rcm/l" id="list_ref"><span class="glyphicon glyphicon-list">
+						<li id="list_li"><a href="http://localhost:8081/rcm/l" id="list_ref"><span class="glyphicon glyphicon-list">
 								</span> List all active release constructions </a></li>
-						<li id="hist_li"><a href="http://localhost:8081/rcm/h" id="hist_ref"><span class="glyphicon glyphicon-list">
+						<li id="hist_li" class="active"><a href="http://localhost:8081/rcm/h" id="hist_ref"><span class="glyphicon glyphicon-list">
 								</span> List history of release constructions </a></li>
 						<li id="create_li"><a href="http://localhost:8081/rcm/c" id="create_ref"><span class="glyphicon glyphicon-plus">
 								</span> Create a release construction </a></li>
@@ -67,22 +67,31 @@
 							style="padding: 15px; border-style: none"
 							id="find_div">
 							<div class="well bs-component">
-								<form class="form-inline" method="GET" id="listForm" 
-									action="http://localhost:14000/RCM/listActProcInst">
+								<form class="form-inline" method="GET" id="histForm" 
+									action="http://localhost:14000/RCM/listFinProcInst">
 									<div class="form-group">
 			          					<button type="submit" class="btn btn-sm">List all release constructions</button>
 			          				</div>
-			          				<div id="list_resp" class="modal-body"></div>
+			          				<div id="hist_resp" class="modal-body"></div>
 			          			</form>
 			          			<br/><br/>
 			          			<div class="table-responsive" id="table_div" style="display: none">
-									<table id="list_table" class="table table-striped">
+									<table id="hist_table" class="table table-striped">
 										<thead>
 											<th>id</th>
+											<!-- <th>url</th> -->
 											<!-- <th>businessKey</th> -->
 											<th>processDefinitionId</th>
+											<!--<th>processDefinitionUrl</th> -->
 											<th>startTime</th>
+											<th>endTime</th>
+											<th>durationInMillis</th>
 											<th>startUserId</th>
+											<!-- <th>startActivityId</th>
+											<th>endActivityId</th>
+											<th>deleteReason</th>
+											<th>superProcessInstanceId</th>
+											<th>variables</th> -->
 										</thead>
 										<tbody>
 										</tbody>
@@ -101,12 +110,12 @@
 
 		<script type="text/javascript">
 			$(document).ready(function(){
-				$('#listForm').submit(function(event) {
+				$('#histForm').submit(function(event) {
 					event.preventDefault();
 					
 					var $form 	   = $(this),
 						url   	   = $form.attr("action"),
-						$list_resp = $('#list_resp'),
+						$list_resp = $('#hist_resp'),
 						$table_div = $('#table_div');
 					
 					var json = {
@@ -129,7 +138,7 @@
 						$list_resp.hide();
 						$table_div.css({display: 'block'});
 						
-						var $response  = $('#list_resp'),
+						var $response  = $('#hist_resp'),
 							myResponse = JSON.parse($response.text()),
 							$resp_j    = $response.text();
 						
@@ -152,7 +161,7 @@
 						//alert($resp_j);
 						//alert(JSON.parse(json.text()));
 						
-						$('#list_table').dynatable({
+						$('#hist_table').dynatable({
 							dataset: {
 								records: data
 							}

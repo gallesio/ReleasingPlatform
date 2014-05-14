@@ -73,6 +73,11 @@ http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/jso
         <filter ref="Not" doc:name="Exclude /favicon.ico"/>
         <http:static-resource-handler resourceBase="${app.home}/web" defaultFile="rcm_list.html" doc:name="RCM List"/>
     </flow>
+    <flow name="RCMUserInterface-History" doc:name="RCMUserInterface-History">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="rcm/h" doc:name="HTTP localhost:8081/rcm/h"/>
+        <filter ref="Not" doc:name="Exclude /favicon.ico"/>
+        <http:static-resource-handler resourceBase="${app.home}/web" defaultFile="rcm_hist.html" doc:name="RCM History"/>
+    </flow>
     <flow name="RCMUserInterface-Create" doc:name="RCMUserInterface-Create">
         <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="rcm/c" doc:name="HTTP localhost:8081/rcm/c"/>
         <filter ref="Not" doc:name="Exclude /favicon.ico"/>
