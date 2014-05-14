@@ -50,11 +50,11 @@
 	
 					<ul class="nav nav-pills" id="navigation_tabs">
 						<li id="list_li" class="active"><a href="http://localhost:8081/rcm/l" id="list_ref"><span class="glyphicon glyphicon-list">
-								</span> List all processes </a></li>
+								</span> List all release constructions </a></li>
 						<li id="create_li"><a href="http://localhost:8081/rcm/c" id="create_ref"><span class="glyphicon glyphicon-plus">
-								</span> Instance a process </a></li>
+								</span> Create a release construction </a></li>
 						<li id="find_li"><a href="http://localhost:8081/rcm/f" id="find_ref"><span class="glyphicon glyphicon-search">
-								</span> Find/view a process </a></li>
+								</span> Find/view a release construction </a></li>
 					</ul>
 	
 					<br />
@@ -65,16 +65,27 @@
 							style="padding: 15px; border-style: none"
 							id="find_div">
 							<div class="well bs-component">
-								<form class="form-inline" method="GET" id="myForm" 
+								<form class="form-inline" method="GET" id="listForm" 
 									action="http://localhost:14000/RCM/listActProcInst">
 									<div class="form-group">
-			        					<input type="text" class="form-control" id="processDefinitionKey" 
-			        						name="processDefinitionKey" value="releasingConstructionProcess"
-			        						size="80"></input>
-			        					<div id="resp" class="modal-body" style="display: none;">HELLO</div>
-			          					<button type="submit" class="btn btn-sm">Instance a process</button>
+			          					<button type="submit" class="btn btn-sm">List all release constructions</button>
 			          				</div>
+			          				<div id="list_resp" class="modal-body"></div>
 			          			</form>
+			          			<br/><br/>
+			          			<div class="table-responsive" id="table_div" style="display: none">
+									<table id="list_table" class="table table-striped">
+										<thead>
+											<th>id</th>
+											<th>businessKey</th>
+											<th>processDefinitionId</th>
+											<th>startTime</th>
+											<th>startUserId</th>
+										</thead>
+										<tbody>
+										</tbody>
+									</table>
+								</div>
 			          		</div>
 						</div>
 					</div>
@@ -88,18 +99,106 @@
 
 		<script type="text/javascript">
 			$(document).ready(function(){
-				$(('#myForm')).submit(function(event) {
+				$('#listForm').submit(function(event) {
 					event.preventDefault();
 					
-					var $form    = $(this),
-						url      = $form.attr("action"),
-						variable = $form.serializeJSON(),
-						json 	 = JSON.stringify(variable);
+					var $form 	   = $(this),
+						url   	   = $form.attr("action"),
+						$list_resp = $('#list_resp'),
+						$table_div = $('#table_div');
 					
-					$.post(url, json, function(data, status) {
-						$('#resp').text(data);
-						alert("Data : " + data + ", Status : " + status);
+					var json = {
+							"data":[{"id":"50722","businessKey":null,"processDefinitionId":"reviewSaledLead:1:38","startTime":"2014-05-11T11:55:25CEST","startUserId":"kermit"},{"id":"50731","businessKey":null,"processDefinitionId":"reviewSaledLead:1:38","startTime":"2014-05-11T11:55:25CEST","startUserId":"kermit"},{"id":"50762","businessKey":null,"processDefinitionId":"reviewSaledLead:1:38","startTime":"2014-05-11T11:55:25CEST","startUserId":"kermit"},{"id":"50816","businessKey":null,"processDefinitionId":"reviewSaledLead:1:38","startTime":"2014-05-11T11:55:25CEST","startUserId":"kermit"},{"id":"50869","businessKey":null,"processDefinitionId":"reviewSaledLead:1:38","startTime":"2014-05-11T11:55:25CEST","startUserId":"kermit"},{"id":"50885","businessKey":null,"processDefinitionId":"reviewSaledLead:1:38","startTime":"2014-05-11T11:55:25CEST","startUserId":"kermit"},{"id":"50916","businessKey":null,"processDefinitionId":"reviewSaledLead:1:38","startTime":"2014-05-10T12:55:25CEST","startUserId":"kermit"},{"id":"50925","businessKey":null,"processDefinitionId":"reviewSaledLead:1:38","startTime":"2014-05-09T13:55:25CEST","startUserId":"kermit"},{"id":"50949","businessKey":null,"processDefinitionId":"reviewSaledLead:1:38","startTime":"2014-05-09T13:55:25CEST","startUserId":"kermit"},{"id":"50958","businessKey":null,"processDefinitionId":"reviewSaledLead:1:38","startTime":"2014-05-09T13:55:25CEST","startUserId":"kermit"},{"id":"50989","businessKey":null,"processDefinitionId":"reviewSaledLead:1:38","startTime":"2014-05-09T13:55:25CEST","startUserId":"kermit"},{"id":"51035","businessKey":null,"processDefinitionId":"reviewSaledLead:1:38","startTime":"2014-05-09T13:55:25CEST","startUserId":"kermit"},{"id":"51066","businessKey":null,"processDefinitionId":"reviewSaledLead:1:38","startTime":"2014-05-08T14:55:25CEST","startUserId":"kermit"},{"id":"51082","businessKey":null,"processDefinitionId":"fixSystemFailure:1:35","startTime":"2014-05-06T16:55:25CEST","startUserId":"kermit"},{"id":"51097","businessKey":null,"processDefinitionId":"reviewSaledLead:1:38","startTime":"2014-05-06T16:55:25CEST","startUserId":"kermit"},{"id":"51106","businessKey":null,"processDefinitionId":"fixSystemFailure:1:35","startTime":"2014-05-06T16:55:25CEST","startUserId":"kermit"},{"id":"51121","businessKey":null,"processDefinitionId":"fixSystemFailure:1:35","startTime":"2014-05-06T16:55:25CEST","startUserId":"kermit"},{"id":"51136","businessKey":null,"processDefinitionId":"reviewSaledLead:1:38","startTime":"2014-05-06T16:55:25CEST","startUserId":"kermit"},{"id":"51152","businessKey":null,"processDefinitionId":"fixSystemFailure:1:35","startTime":"2014-05-06T16:55:25CEST","startUserId":"kermit"},{"id":"51167","businessKey":null,"processDefinitionId":"fixSystemFailure:1:35","startTime":"2014-05-06T16:55:25CEST","startUserId":"kermit"},{"id":"51182","businessKey":null,"processDefinitionId":"fixSystemFailure:1:35","startTime":"2014-05-06T16:55:25CEST","startUserId":"kermit"},{"id":"51197","businessKey":null,"processDefinitionId":"fixSystemFailure:1:35","startTime":"2014-05-06T16:55:25CEST","startUserId":"kermit"},{"id":"51212","businessKey":null,"processDefinitionId":"reviewSaledLead:1:38","startTime":"2014-05-06T16:55:25CEST","startUserId":"kermit"},{"id":"51228","businessKey":null,"processDefinitionId":"fixSystemFailure:1:35","startTime":"2014-05-04T18:55:25CEST","startUserId":"kermit"},{"id":"51250","businessKey":null,"processDefinitionId":"fixSystemFailure:1:35","startTime":"2014-05-03T19:55:25CEST","startUserId":"kermit"},{"id":"51265","businessKey":null,"processDefinitionId":"fixSystemFailure:1:35","startTime":"2014-05-02T20:55:25CEST","startUserId":"kermit"},{"id":"51280","businessKey":null,"processDefinitionId":"reviewSaledLead:1:38","startTime":"2014-05-02T20:55:25CEST","startUserId":"kermit"},{"id":"51289","businessKey":null,"processDefinitionId":"fixSystemFailure:1:35","startTime":"2014-05-02T20:55:25CEST","startUserId":"kermit"},{"id":"51325","businessKey":null,"processDefinitionId":"fixSystemFailure:1:35","startTime":"2014-05-02T20:55:25CEST","startUserId":"kermit"},{"id":"51340","businessKey":null,"processDefinitionId":"reviewSaledLead:1:38","startTime":"2014-05-02T20:55:25CEST","startUserId":"kermit"},{"id":"51349","businessKey":null,"processDefinitionId":"reviewSaledLead:1:38","startTime":"2014-05-02T20:55:25CEST","startUserId":"kermit"},{"id":"51358","businessKey":null,"processDefinitionId":"fixSystemFailure:1:35","startTime":"2014-05-02T20:55:25CEST","startUserId":"kermit"},{"id":"51373","businessKey":null,"processDefinitionId":"reviewSaledLead:1:38","startTime":"2014-05-02T20:55:25CEST","startUserId":"kermit"},{"id":"51382","businessKey":null,"processDefinitionId":"fixSystemFailure:1:35","startTime":"2014-05-02T20:55:25CEST","startUserId":"kermit"},{"id":"51397","businessKey":null,"processDefinitionId":"reviewSaledLead:1:38","startTime":"2014-05-02T20:55:25CEST","startUserId":"kermit"},{"id":"51413","businessKey":null,"processDefinitionId":"fixSystemFailure:1:35","startTime":"2014-05-02T20:55:25CEST","startUserId":"kermit"},{"id":"51442","businessKey":null,"processDefinitionId":"fixSystemFailure:1:35","startTime":"2014-05-02T20:55:25CEST","startUserId":"kermit"},{"id":"51457","businessKey":null,"processDefinitionId":"reviewSaledLead:1:38","startTime":"2014-05-02T20:55:25CEST","startUserId":"kermit"},{"id":"51473","businessKey":null,"processDefinitionId":"fixSystemFailure:1:35","startTime":"2014-05-01T21:55:25CEST","startUserId":"kermit"},{"id":"51488","businessKey":null,"processDefinitionId":"reviewSaledLead:1:38","startTime":"2014-05-01T21:55:25CEST","startUserId":"kermit"}],"total":40,"start":0,"sort":"id","order":"asc","size":40
+				            }
+					
+					/* $.getJSON(url, function(json2)) {
+						alert("JSON DATA : " + json2);
+					} */
+					
+					$.ajax({
+						url: url,
+						type: "GET",
+						dataType: 'json'
+					})
+					
+					.done(function(resp) {
+						var list_resp_json = JSON.stringify(resp);
+						$list_resp.show().text(list_resp_json);
+						//$list_resp.hide();
+						$table_div.css({display: 'block'});
+						
+						var $response  = $('#list_resp'),
+							myResponse = JSON.parse($response.text()),
+							$resp_j    = $response.text();
+						
+						//var data = list_resp_json.data;
+						
+						/* alert(list_resp_json);
+						alert(list_resp_json.data); */
+						alert($.parseJSON(list_resp_json));
+						console.log($.parseJSON(list_resp_json));
+						
+						var json_d = $.parseJSON(list_resp_json);
+						alert(json_d.data);
+						console.log(json_d.data);
+						
+						var data = json_d.data;
+						/* alert(json.data);
+						alert(JSON.stringify(json)); */
+						//alert($response);
+						//alert(myResponse.data);
+						//alert($resp_j);
+						//alert(JSON.parse(json.text()));
+						
+						$('#list_table').dynatable({
+							dataset: {
+								records: data
+							}
+						});
 					});
+					
+					
+					
+					
+					
+					/* var $form 	   = $(this),
+						url   	   = $form.attr("action"),
+						$list_resp = $('#list_resp'),
+						$table_div = $('#table_div');
+					
+					$.ajax({
+						url: url,
+						type: "GET"
+					})
+					
+					.done(function(data) {
+						alert(data);
+						$table_div.css({display: 'block'});
+						
+						$('#list_table').dynatable({
+							dataset: {
+								ajax: true,
+								ajaxUrl: '/rcm/l/ajax_data.json',
+								ajaxOnLoad: true,
+								records: []
+							}
+						});
+					}); */
+					
+					
+					/* $.get(url, function(data, status) {
+					})
+					
+					$.ajax({
+						url: "http://localhost:14000/RCM/listActProcInst",
+						success: function(data) {
+							$('#list_table').dynatable({
+					  			dataset: {
+					  				records: data
+					  			}
+						  	});
+						}
+					}); */
 				});
 			});
 		</script>
