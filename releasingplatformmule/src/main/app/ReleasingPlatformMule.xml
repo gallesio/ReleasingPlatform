@@ -33,11 +33,6 @@ http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/jso
         <jdbc-ee:query key="deleteItem" value="DELETE FROM component_table WHERE comp_id=#[message.inboundProperties['comp_id']]"/>
         <jdbc-ee:query key="findById" value="SELECT * FROM component_table  WHERE comp_id=#[message.inboundProperties['comp_id']]"/>
     </jdbc-ee:connector>
-    <flow name="ReleasingPlatformMuleFlow1" doc:name="ReleasingPlatformMuleFlow1">
-        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="em/l/ajax_data.json" doc:name="HTTP"/>
-        <filter ref="Not" doc:name="Filter Reference"/>
-        <http:static-resource-handler resourceBase="${app.home}/web" defaultFile="ajax_data.json" doc:name="HTTP Static Resource Handler"/>
-    </flow>
     <flow name="UserInterface" doc:name="UserInterface">
         <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="ui" doc:name="HTTP localhost:8081/ui"/>
         <filter ref="Not" doc:name="Exclude /favicon.ico"/>
