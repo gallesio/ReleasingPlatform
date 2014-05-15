@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:spring="http://www.springframework.org/schema/beans" version="EE-3.4.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+	 <flow name="EntityManagerInterface-List" doc:name="EntityManagerInterface-List">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="em/l" doc:name="HTTP localhost:8081/em/l"/>
+        <filter ref="Not" doc:name="Exclude /favicon.ico"/>
+        <http:static-resource-handler resourceBase="${app.home}/web" defaultFile="em_list.html" doc:name="EM List"/>
+    </flow>
+    <flow name="EntityManagerUserInterface-Create" doc:name="EntityManagerUserInterface-Create">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="em/c" doc:name="HTTP localhost:8081/em/c"/>
+        <filter ref="Not" doc:name="Exclude /favicon.ico"/>
+        <http:static-resource-handler resourceBase="${app.home}/web" defaultFile="em_create.html" doc:name="EM Create"/>
+    </flow>
+    <flow name="EntityManagerUserInterface-Find" doc:name="EntityManagerUserInterface-Find">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="em/f" doc:name="HTTP localhost:8081/em/f"/>
+        <filter ref="Not" doc:name="Exclude /favicon.ico"/>
+        <http:static-resource-handler resourceBase="${app.home}/web" defaultFile="em_find.html" doc:name="EM Find"/>
+    </flow>
+
+</mule>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:jersey="http://www.mulesoft.org/schema/mule/jersey"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:spring="http://www.springframework.org/schema/beans" version="EE-3.4.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/jersey http://www.mulesoft.org/schema/mule/jersey/current/mule-jersey.xsd 
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+	<flow name="RM" doc:name="RM">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="11000" doc:name="HTTP localhost:11000"/>
+        <jersey:resources doc:name="RM">
+            <component class="services.RM"/>
+        </jersey:resources>
+    </flow>
+    <flow name="Declaration" doc:name="Declaration">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="11001" doc:name="HTTP localhost:11001"/>
+        <jersey:resources doc:name="Declaration">
+            <component class="services.DeclarationResource"/>
+        </jersey:resources>
+    </flow>
+    <flow name="Building" doc:name="Building">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="11002" doc:name="HTTP localhost:11002"/>
+        <jersey:resources doc:name="Building">
+            <component class="services.BuildingResource"/>
+        </jersey:resources>
+    </flow>
+    <flow name="Validation" doc:name="Validation">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="11003" doc:name="HTTP localhost:11003"/>
+        <jersey:resources doc:name="Validation">
+            <component class="services.ValidationResource"/>
+        </jersey:resources>
+    </flow>
+    <flow name="Deploy" doc:name="Deploy">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="11004" doc:name="HTTP localhost:11004"/>
+        <jersey:resources doc:name="Deploy">
+            <component class="services.DeployResource"/>
+        </jersey:resources>
+    </flow>
+</mule>

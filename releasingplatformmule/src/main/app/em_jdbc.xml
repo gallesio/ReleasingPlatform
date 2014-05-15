@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:json="http://www.mulesoft.org/schema/mule/json"
+	xmlns:jdbc-ee="http://www.mulesoft.org/schema/mule/ee/jdbc"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:spring="http://www.springframework.org/schema/beans" version="EE-3.4.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd 
+http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd 
+http://www.mulesoft.org/schema/mule/ee/jdbc http://www.mulesoft.org/schema/mule/ee/jdbc/current/mule-jdbc-ee.xsd http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+	<jdbc-ee:mysql-data-source name="MySQL_Data_Source" user="root" password="" url="jdbc:mysql://localhost:3306/component_dev" transactionIsolation="UNSPECIFIED" doc:name="MySQL Data Source"/>
+    <jdbc-ee:connector name="Database" dataSource-ref="MySQL_Data_Source" validateConnections="true" queryTimeout="-1" pollingFrequency="0" doc:name="Database">
+        <jdbc-ee:query key="selectAll" value="SELECT * FROM component_table"/>
+        <jdbc-ee:query key="insertItem" value="INSERT INTO component_table SET name=#[message.inboundProperties['name']], type=#[message.inboundProperties['type']], ref=#[message.inboundProperties['ref']]"/>
+        <jdbc-ee:query key="updateItem" value="UPDATE component_table SET name=#[message.inboundProperties['name']], type=#[message.inboundProperties['type']], ref=#[message.inboundProperties['ref']] WHERE comp_id=#[message.inboundProperties['comp_id']]"/>
+        <jdbc-ee:query key="deleteItem" value="DELETE FROM component_table WHERE comp_id=#[message.inboundProperties['comp_id']]"/>
+        <jdbc-ee:query key="findById" value="SELECT * FROM component_table  WHERE comp_id=#[message.inboundProperties['comp_id']]"/>
+    </jdbc-ee:connector>
+    <flow name="listAllComponents" doc:name="listAllComponents">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="list" doc:name="HTTP localhost:8081/list"/>
+        <jdbc-ee:outbound-endpoint exchange-pattern="request-response" queryTimeout="-1" connector-ref="Database" doc:name="List all components" queryKey="selectAll"/>
+        <json:object-to-json-transformer doc:name="Object to JSON"/>
+    </flow>
+    <flow name="createComponent" doc:name="createComponent">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="create" doc:name="HTTP localhost:8081/create"/>
+        <jdbc-ee:outbound-endpoint exchange-pattern="request-response" queryKey="insertItem" queryTimeout="-1" connector-ref="Database" doc:name="Create new component"/>
+        <jdbc-ee:outbound-endpoint exchange-pattern="request-response" queryKey="selectAll" queryTimeout="-1" connector-ref="Database" doc:name="List all components"/>
+        <json:object-to-json-transformer doc:name="Object to JSON"/>
+    </flow>
+    <flow name="updateComponent" doc:name="updateComponent">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="update" doc:name="HTTP localhost:8081/update"/>
+        <jdbc-ee:outbound-endpoint exchange-pattern="request-response" queryKey="updateItem" queryTimeout="-1" connector-ref="Database" doc:name="Update a component"/>
+        <jdbc-ee:outbound-endpoint exchange-pattern="request-response" queryKey="selectAll" queryTimeout="-1" connector-ref="Database" doc:name="List all components"/>
+        <json:object-to-json-transformer doc:name="Object to JSON"/>
+    </flow>
+    <flow name="deleteComponent" doc:name="deleteComponent">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="delete" doc:name="HTTP localhost:8081/delete"/>
+        <jdbc-ee:outbound-endpoint exchange-pattern="request-response" queryKey="deleteItem" queryTimeout="-1" connector-ref="Database" doc:name="Delete a component"/>
+        <jdbc-ee:outbound-endpoint exchange-pattern="request-response" queryKey="selectAll" queryTimeout="-1" connector-ref="Database" doc:name="List all components"/>
+        <json:object-to-json-transformer doc:name="Object to JSON"/>
+    </flow>
+    <flow name="findComponentById" doc:name="findComponentById">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="find" doc:name="HTTP localhost:8081/find"/>
+        <jdbc-ee:outbound-endpoint exchange-pattern="request-response" queryKey="findById" queryTimeout="-1" connector-ref="Database" doc:name="Find a component"/>
+        <json:object-to-json-transformer doc:name="Object to JSON"/>
+    </flow>
+</mule>

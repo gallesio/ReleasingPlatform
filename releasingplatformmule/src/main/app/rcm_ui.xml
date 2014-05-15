@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:spring="http://www.springframework.org/schema/beans" version="EE-3.4.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+	<flow name="RMUserInterface" doc:name="RMUserInterface">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="rm" doc:name="HTTP localhost:8081/rm"/>
+        <filter ref="Not" doc:name="Exclude Favicon.ico"/>
+        <http:static-resource-handler resourceBase="${app.home}/web" defaultFile="rm.html" doc:name="RM"/>
+    </flow>
+    <flow name="RCMUserInterface-List" doc:name="RCMUserInterface-List">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="rcm/l" doc:name="HTTP localhost:8081/rcm/l"/>
+        <filter ref="Not" doc:name="Exclude /favicon.ico"/>
+        <http:static-resource-handler resourceBase="${app.home}/web" defaultFile="rcm_list.html" doc:name="RCM List"/>
+    </flow>
+    <flow name="RCMUserInterface-History" doc:name="RCMUserInterface-History">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="rcm/h" doc:name="HTTP localhost:8081/rcm/h"/>
+        <filter ref="Not" doc:name="Exclude /favicon.ico"/>
+        <http:static-resource-handler resourceBase="${app.home}/web" defaultFile="rcm_hist.html" doc:name="RCM History"/>
+    </flow>
+    <flow name="RCMUserInterface-Create" doc:name="RCMUserInterface-Create">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="rcm/c" doc:name="HTTP localhost:8081/rcm/c"/>
+        <filter ref="Not" doc:name="Exclude /favicon.ico"/>
+        <http:static-resource-handler resourceBase="${app.home}/web" defaultFile="rcm_create.html" doc:name="RCM Create"/>
+    </flow>
+    <flow name="RCMUserInterface-Find" doc:name="RCMUserInterface-Find">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="rcm/f" doc:name="HTTP localhost:8081/rcm/f"/>
+        <filter ref="Not" doc:name="Exclude /favicon.ico"/>
+        <http:static-resource-handler resourceBase="${app.home}/web" defaultFile="rcm_find.html" doc:name="RCM Find"/>
+    </flow>
+</mule>
