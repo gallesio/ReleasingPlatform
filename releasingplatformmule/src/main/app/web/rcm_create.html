@@ -50,7 +50,7 @@
 	
 					<ul class="nav nav-pills" id="navigation_tabs">
 						<li id="list_li"><a href="http://localhost:8081/rcm/l" id="list_ref"><span class="glyphicon glyphicon-list">
-								</span> List all release constructions </a></li>
+								</span> List all active release constructions </a></li>
 						<li id="hist_li"><a href="http://localhost:8081/rcm/h" id="hist_ref"><span class="glyphicon glyphicon-list">
 								</span> List history of release constructions </a></li>
 						<li id="create_li" class="active"><a href="http://localhost:8081/rcm/c" id="create_ref"><span class="glyphicon glyphicon-plus">
@@ -80,6 +80,14 @@
 			          					<button type="submit" class="btn btn-sm">Instance a process</button>
 			          				</div>
 			          			</form>
+			          			<form class="form-inline" method="GET" id="components_choice"
+			          				action="http://localhost:9091/list">
+			          				<label for="components_list"> Choose a component to release : </label>
+			          				<select class="form-control" id="components_list">
+			        					<option class="selected"></option>
+			        				</select>
+			          			</form>
+			          				
 			          			<div id="create_resp" class="modal-body"></div>
 			          		</div>
 						</div>
@@ -98,6 +106,23 @@
 					$error	 = $('#error');
 				$success.hide();
 				$error.hide();
+				
+				$('#components_list').click(function() {
+					//alert("hello");
+					
+					$.ajax({
+						url: "http://localhost:8081/list",
+						type: "GET"
+					})
+					.done(function(resp) {
+						var $options = $('#components_list');
+						
+						$.each(resp, function() {
+							$options.append($("<option>").text(this.name));
+						});
+					});
+				});
+
 				
 				$('#createForm').submit(function(event) {
 					event.preventDefault();
@@ -118,12 +143,10 @@
 							$create_resp.text(data);
 							alert(status);
 						});
-		            	
-		            	if (status == "success") {
-		            		$success.html("<span class='glyphicon glyphicon-ok'></span> &nbsp; The process <b>" + procId_value + "</b> was instanced successfully ! See the <a href='http://localhost:8081/rcm/l'>process list</a> for more details. ");
-		            		$success.show();
-		            		$error.hide();
-		            	}
+
+	            		$success.html("<span class='glyphicon glyphicon-ok'></span> &nbsp; The process <b>" + procId_value + "</b> was instanced successfully ! See the <a href='http://localhost:8081/rcm/l'>process list</a> for more details. ");
+	            		$success.show();
+	            		$error.hide();
 		            }
 				});
 			});
