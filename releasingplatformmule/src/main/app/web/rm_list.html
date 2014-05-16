@@ -39,11 +39,92 @@
 			      </ul>
 			    </div>
 				<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-					<div class="jumbotron" id="jumbo">
-				  		<h1> &nbsp; Welcome to the Releasing Manager ! </h1>
-				  	</div>
+					<h1 class="page-header">Release Construction Manager</h1>
+	
+					<ul class="nav nav-pills" id="navigation_tabs">
+						<li id="list_li" class="active"><a href="http://localhost:8081/rm/l" id="list_ref"><span class="glyphicon glyphicon-list">
+								</span> List all active releases </a></li>
+						<li id="hist_li"><a href="http://localhost:8081/rm/h" id="hist_ref"><span class="glyphicon glyphicon-list">
+								</span> List history of releases</a></li>
+						<li id="create_li"><a href="http://localhost:8081/rm/c" id="create_ref"><span class="glyphicon glyphicon-plus">
+								</span> Declare a release </a></li>
+						<li id="find_li"><a href="http://localhost:8081/rm/f" id="find_ref"><span class="glyphicon glyphicon-search">
+								</span> Find/view a release </a></li>
+					</ul>
+	
+					<br />
+
+					<div class="col-lg-10">
+						<!-- Content for find form -->
+						<div class="panel panel-default"
+							style="padding: 15px; border-style: none"
+							id="find_div">
+							<div class="well bs-component">
+								<form class="form-inline" method="GET" id="listForm" 
+									action="http://localhost:14000/RCM/listActProcInst">
+									<div class="form-group">
+			          					<button type="submit" class="btn btn-sm">List all release constructions</button>
+			          				</div>
+			          				<div id="list_resp" class="modal-body"></div>
+			          			</form>
+			          			<br/><br/>
+			          			<div class="table-responsive" id="table_div" style="display: none">
+									<table id="list_table" class="table table-striped">
+										<thead>
+											<th>id</th>
+											<!-- <th>businessKey</th> -->
+											<th>processDefinitionId</th>
+											<th>startTime</th>
+											<th>startUserId</th>
+										</thead>
+										<tbody>
+										</tbody>
+									</table>
+								</div>
+			          		</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
+
+		<script type="text/javascript" src="jquery.js"></script>
+		<script type="text/javascript" src="jquery.jsonserialize.js"></script>
+		<script type="text/javascript" src="./dynatable/jquery.dynatable.js"></script>
+
+		<script type="text/javascript">
+			$(document).ready(function(){
+				$('#listForm').submit(function(event) {
+					event.preventDefault();
+					
+					var $form 	   = $(this),
+						url   	   = $form.attr("action"),
+						$list_resp = $('#list_resp'),
+						$table_div = $('#table_div');
+					
+					$.ajax({
+						url: url,
+						type: "GET",
+						dataType: 'json'
+					})
+					
+					.done(function(resp) {
+						var list_resp_json = JSON.stringify(resp),
+							json_d = $.parseJSON(list_resp_json),
+							data = json_d.data;
+						
+						$list_resp.show().text(list_resp_json);
+						$list_resp.hide();
+						$table_div.css({display: 'block'});
+						
+						$('#list_table').dynatable({
+							dataset: {
+								records: data
+							}
+						});
+					});
+				});
+			});
+		</script>
 	</body>
 </html>

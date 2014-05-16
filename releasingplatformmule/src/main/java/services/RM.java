@@ -1,5 +1,6 @@
 package services;
 
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 
@@ -16,6 +17,7 @@ public class RM {
 	public RM() {}
 	
 	@POST
+	@Path("/instProc")
 	public String instanciateProcess(String input) {
 		
 		Client client = Client.create();
@@ -28,6 +30,56 @@ public class RM {
         String output = response.getEntity(String.class);
         
         return output;
+	}
+	
+	@GET
+	@Path("/findProcInst")
+	public String findProcessInstance(String input) {
+		
+		System.out.println("input = " + input);
+		
+		Client client = Client.create();
+		client.addFilter(new HTTPBasicAuthFilter("kermit", "kermit"));
+        WebResource webResource = client.resource("http://localhost:8080/activiti-rest/service/process-instances&processDefinitionId=" + input);
+        
+        System.out.println(result);
+        
+        ClientResponse response = webResource.get(ClientResponse.class);
+        String output = response.getEntity(String.class);
+        
+        return output;
+	}
+	
+	@GET
+	@Path("/listActProcInst")
+	public String getProcessInstances() {
+		
+		Client client = Client.create();
+		client.addFilter(new HTTPBasicAuthFilter("kermit", "kermit"));
+		WebResource webResource = client.resource("http://localhost:8080/activiti-rest/service/process-instances?size=100");
+		
+		System.out.println(result);
+		
+		ClientResponse response = webResource.get(ClientResponse.class);
+		String output = response.getEntity(String.class);
+		
+		return output;
+	}
+	
+	@GET
+	@Path("/listFinProcInst")
+	public String getProcessInstancesHistory() {
+		
+		Client client = Client.create();
+		client.addFilter(new HTTPBasicAuthFilter("kermit", "kermit"));
+		WebResource webResource = client.resource("http://localhost:8080/activiti-rest/service/history/historic-process-instances?size=1000");
+		
+		System.out.println(result);
+		
+		ClientResponse response = webResource.get(ClientResponse.class);
+		String output = response.getEntity(String.class);
+		
+		return output;
 	}
 
 }
