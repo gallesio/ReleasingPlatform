@@ -1,0 +1,185 @@
+<!DOCTYPE>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		
+		<title>Releasing Manager</title>
+		
+		<!-- Bootstrap core CSS -->
+		<link href="./bootstrap/css/bootstrap.yeti.min.css" type="text/css"
+			rel="stylesheet">
+		<!-- Custom styles for this template -->
+		<link href="dashboard.css" type="text/css" rel="stylesheet">
+	</head>
+	<body>
+
+		<!-- Static navigation header bar -->
+		<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse"
+						data-target=".navbar-collapse">
+						<span class="sr-only">Toggle navigation</span> <span
+							class="icon-bar"></span> <span class="icon-bar"></span> <span
+							class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="http://localhost:8081/ui"> Releasing Manager </a>
+				</div>
+			</div>
+		</div>
+	
+
+		<div class="container-fluid">
+			<div class="row">
+	
+				<!-- Static navigation side bar -->
+				<div class="col-sm-3 col-md-2 sidebar">
+					<ul class="nav nav-sidebar">
+						<li><a href="http://localhost:8081/em/l">Entity Manager</a></li>
+						<li><a href="http://localhost:8081/cm/l">Change Manager</a></li>
+						<li class="active"><a href="http://localhost:8081/rm/l">Release Manager</a></li>
+						<li><a href="http://localhost:8081/rcm/l">Release Construction Manager</a></li>
+					</ul>
+				</div>
+
+
+				<!-- Dynamic content -->
+				<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+					<h1 class="page-header">Release Construction Manager</h1>
+	
+					<ul class="nav nav-pills" id="navigation_tabs">
+						<li id="list_li"><a href="http://localhost:8081/rm/l" id="list_ref"><span class="glyphicon glyphicon-list">
+								</span> List all active releases</a></li>
+						<li id="hist_li"><a href="http://localhost:8081/rm/h" id="hist_ref"><span class="glyphicon glyphicon-list">
+								</span> List history of releases</a></li>
+						<li id="create_li" class="active"><a href="http://localhost:8081/rm/c" id="create_ref"><span class="glyphicon glyphicon-plus">
+								</span> Declare a release </a></li>
+						<li id="find_li"><a href="http://localhost:8081/rm/f" id="find_ref"><span class="glyphicon glyphicon-search">
+								</span> Find/view a release </a></li>
+					</ul>
+	
+					<br />
+
+					<div class="col-lg-10">
+						<!-- Content for find form -->
+						<div class="panel panel-default"
+							style="padding: 15px; border-style: none"
+							id="find_div">
+							
+							<div class="alert alert-success" id="success"></div>
+							<div class="alert alert-danger"  id="error"></div>
+							
+							<div class="well bs-component">
+								<form class="form-horizontal" method="GET" id="createForm" 
+									action="http://localhost:8081/create">
+									<fieldset>
+										<div class="form-group">
+											<label for="name" class="col-lg-2 control-label">Name</label>
+											<div class="col-lg-10">
+												<input type="text" class="form-control" id="name" value="release1"></input>
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="status" class="col-lg-2 control-label">Status</label>
+											<div class="col-lg-10">
+												<input type="text" class="form-control" id="status" value="not finished"></input>
+											</div>
+										</div>
+										<div class="form-group">
+					        				<label for="owner" class="col-lg-2 control-label">Owner</label>
+											<div class="col-lg-10">
+												<input type="text" class="form-control" id="owner"  value="kermit"></input>
+											</div>
+										</div>
+				        				<div id="create_resp" class="modal-body" style="display: none;"></div>
+				          				<div class="form-group">
+											<div class="col-lg-10 col-lg-offset-2">
+										        <button type="submit" class="btn btn-sm">Declare a release</button>
+										    </div>
+										</div>
+									</fieldset>
+								</form>
+								<form class="form-inline" method="GET" id="components_choice"
+			          				action="http://localhost:8081/list">
+			          				<label for="components_list"> Choose a component to release : </label>
+			          				<select class="form-control" id="components_list">
+			        					<option class="selected"></option>
+			        				</select>
+			          			</form>
+			          				
+			          			<div id="create_resp" class="modal-body"></div>
+			          		</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script type="text/javascript" src="jquery.js"></script>
+		<script type="text/javascript" src="jquery.jsonserialize.js"></script>
+		<script type="text/javascript" src="./dynatable/jquery.dynatable.js"></script>
+
+		<script type="text/javascript">
+			$(document).ready(function(){
+				var $success = $('#success'),
+					$error	 = $('#error');
+				$success.hide();
+				$error.hide();
+				
+				$('#components_list').click(function() {
+					//alert("hello");
+					
+					$.ajax({
+						url: "http://localhost:8081/list",
+						type: "GET"
+					})
+					.done(function(resp) {
+						var $options = $('#components_list');
+						
+						$.each(resp, function() {
+							$options.append($("<option>").text(this.name));
+						});
+					});
+				});
+				
+				// Create form script
+				$('#createForm').submit(function(event) {
+		            event.preventDefault();
+		            
+		            var $form = $(this),
+			            url = $form.attr("action"),
+			            $create_resp = $('#create_resp'),
+			            variable = $form.serializeJSON(),
+			            json = JSON.stringify(variable),
+			            name_value   = document.getElementById('name').value,
+			            status_value = document.getElementById('status').value,
+			            owner_value  = document.getElementById('owner').value;
+		            
+		            if (name_value == "" || status_value == "" || owner_value == "") {
+		            	$error.html("<span class='glyphicon glyphicon-remove'></span> &nbsp; Warning ! Your crelease is not created because one or some fields are empty !");
+		            	$error.show();
+		            	$success.hide();
+		            } else {
+		            	$.ajax({
+			            	url: url,
+			            		type: "GET",
+			            		data: { name: name_value,
+			            				status: status_value,
+			           					owner: owner_value
+			            			  },
+			            })
+	
+			            .done(function(resp) {
+			            	$create_resp.text(JSON.stringify(resp));
+			            	$success.html("<span class='glyphicon glyphicon-ok'></span> &nbsp; The release <b>" + name_value + "</b> was declared successfully ! See the <a href='http://localhost:8081/rm/l'>releases list</a> for more details. ");
+			            	$success.show();
+			            	$error.hide();
+			            	//$(location).attr('href',"http://localhost:8081/rm/l");
+			            });
+		            }
+		        });
+			});
+		</script>
+	</body>
+</html>

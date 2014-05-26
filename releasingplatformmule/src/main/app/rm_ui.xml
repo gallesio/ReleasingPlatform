@@ -1,17 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:http="http://www.mulesoft.org/schema/mule/http"
+<mule xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns:http="http://www.mulesoft.org/schema/mule/http"
 	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:spring="http://www.springframework.org/schema/beans" version="EE-3.4.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
-http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
-	<flow name="RMUserInterface" doc:name="RMUserInterface">
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd">
+	<flow name="RMUserInterface-List" doc:name="RMUserInterface-List">
         <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="rm/l" doc:name="HTTP localhost:8081/rm/l"/>
         <filter ref="Not" doc:name="Exclude Favicon.ico"/>
         <http:static-resource-handler resourceBase="${app.home}/web" defaultFile="rm_list.html" doc:name="RM List"/>
     </flow>
-    <flow name="RM_UIFlow1" doc:name="RM_UIFlow1">
+    <flow name="RMUserInterface-History" doc:name="RMUserInterface-History">
         <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="rm/h" doc:name="HTTP localhost:8081/rm/h"/>
         <filter ref="Not" doc:name="Exclude Favicon.ico"/>
         <http:static-resource-handler resourceBase="${app.home}/web" defaultFile="rm_hist.html" doc:name="RM History"/>
+    </flow>
+    <flow name="RMUserInterface-Create" doc:name="RMUserInterface-Create">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="rm/c" doc:name="HTTP localhost:8081/rm/c"/>
+        <filter ref="Not" doc:name="Exclude Favicon.ico"/>
+        <http:static-resource-handler resourceBase="${app.home}/web" defaultFile="rm_create.html" doc:name="RM Create"/>
+    </flow>
+    <flow name="RMUserInterface-Find" doc:name="RMUserInterface-Find">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="rm/f" doc:name="HTTP localhost:8081/rm/f"/>
+        <filter ref="Not" doc:name="Exclude Favicon.ico"/>
+        <http:static-resource-handler resourceBase="${app.home}/web" defaultFile="rm_find.html" doc:name="RM Find"/>
     </flow>
 </mule>
