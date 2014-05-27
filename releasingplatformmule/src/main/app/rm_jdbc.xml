@@ -15,30 +15,30 @@ http://www.mulesoft.org/schema/mule/ee/jdbc http://www.mulesoft.org/schema/mule/
     </jdbc-ee:connector>
     <flow name="listAllReleases" doc:name="listAllReleases">
         <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="7071" path="list" doc:name="HTTP localhost:7071/list"/>
-        <jdbc-ee:outbound-endpoint exchange-pattern="request-response" queryTimeout="-1" doc:name="List all releases" connector-ref="RM_Database" queryKey="selectAll"/>
+        <jdbc-ee:outbound-endpoint exchange-pattern="request-response" doc:name="List all releases" connector-ref="RM_Database" queryKey="selectAll"/>
         <json:object-to-json-transformer doc:name="Object to JSON"/>
     </flow>
     <flow name="createNewRelease" doc:name="createNewRelease">
         <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="7071" path="create" doc:name="HTTP localhost:7071/create"/>
-        <jdbc-ee:outbound-endpoint exchange-pattern="request-response"  queryTimeout="-1" doc:name="Create new release" connector-ref="RM_Database" queryKey="insertItem"/>
-        <jdbc-ee:outbound-endpoint exchange-pattern="request-response"  queryTimeout="-1" doc:name="List all releases" connector-ref="RM_Database" queryKey="selectAll"/>
+        <jdbc-ee:outbound-endpoint exchange-pattern="request-response" doc:name="Create new release" connector-ref="RM_Database" queryKey="insertItem"/>
+        <jdbc-ee:outbound-endpoint exchange-pattern="request-response" doc:name="List all releases" connector-ref="RM_Database" queryKey="selectAll"/>
         <json:object-to-json-transformer doc:name="Object to JSON"/>
     </flow>
     <flow name="updateRelease" doc:name="updateRelease">
         <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="7071" path="update" doc:name="HTTP localhost:7071/update"/>
-        <jdbc-ee:outbound-endpoint exchange-pattern="request-response"  queryTimeout="-1" doc:name="Update a release" connector-ref="RM_Database" queryKey="updateItem"/>
-        <jdbc-ee:outbound-endpoint exchange-pattern="request-response"  queryTimeout="-1" doc:name="List all releases" connector-ref="RM_Database" queryKey="selectAll"/>
+        <jdbc-ee:outbound-endpoint exchange-pattern="request-response" doc:name="Update a release" connector-ref="RM_Database" queryKey="updateItem"/>
+        <jdbc-ee:outbound-endpoint exchange-pattern="request-response" doc:name="List all releases" connector-ref="RM_Database" queryKey="selectAll"/>
         <json:object-to-json-transformer doc:name="Object to JSON"/>
     </flow>
     <flow name="deleteRelease" doc:name="deleteRelease">
         <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="7071" path="delete" doc:name="HTTP localhost:7071/delete"/>
-        <jdbc-ee:outbound-endpoint exchange-pattern="request-response"  queryTimeout="-1" doc:name="Delete a release" connector-ref="RM_Database" queryKey="deleteItem"/>
-        <jdbc-ee:outbound-endpoint exchange-pattern="request-response"  queryTimeout="-1" doc:name="List all releases" connector-ref="RM_Database" queryKey="deleteItem"/>
+        <jdbc-ee:outbound-endpoint exchange-pattern="request-response" doc:name="Delete a release" connector-ref="RM_Database" queryKey="deleteItem"/>
+        <jdbc-ee:outbound-endpoint exchange-pattern="request-response" doc:name="List all releases" connector-ref="RM_Database" queryKey="deleteItem"/>
         <json:object-to-json-transformer doc:name="Object to JSON"/>
     </flow>
     <flow name="findReleaseById" doc:name="findReleaseById">
         <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="7071" path="find" doc:name="HTTP localhost:7071/find"/>
-        <jdbc-ee:outbound-endpoint exchange-pattern="request-response"  queryTimeout="-1" doc:name="Find a release" connector-ref="RM_Database" queryKey="findById"/>
+        <jdbc-ee:outbound-endpoint exchange-pattern="request-response" doc:name="Find a release" connector-ref="RM_Database" queryKey="findById"/>
         <json:object-to-json-transformer doc:name="Object to JSON"/>
     </flow>
 </mule>

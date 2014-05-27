@@ -8,38 +8,71 @@ http://www.mulesoft.org/schema/mule/ee/jdbc http://www.mulesoft.org/schema/mule/
 http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd">
 	<jdbc-ee:mysql-data-source name="MySQL_Data_Source" user="root" password="" url="jdbc:mysql://localhost:3306/component_dev" transactionIsolation="UNSPECIFIED" doc:name="MySQL Data Source"/>
     <jdbc-ee:connector name="Database" dataSource-ref="MySQL_Data_Source" validateConnections="true" queryTimeout="-1" pollingFrequency="0" doc:name="Database">
-        <jdbc-ee:query key="selectAll" value="SELECT * FROM component_table"/>
-        <jdbc-ee:query key="insertItem" value="INSERT INTO component_table SET name=#[message.inboundProperties['name']], type=#[message.inboundProperties['type']], ref=#[message.inboundProperties['ref']]"/>
-        <jdbc-ee:query key="updateItem" value="UPDATE component_table SET name=#[message.inboundProperties['name']], type=#[message.inboundProperties['type']], ref=#[message.inboundProperties['ref']] WHERE comp_id=#[message.inboundProperties['comp_id']]"/>
-        <jdbc-ee:query key="deleteItem" value="DELETE FROM component_table WHERE comp_id=#[message.inboundProperties['comp_id']]"/>
-        <jdbc-ee:query key="findById" value="SELECT * FROM component_table  WHERE comp_id=#[message.inboundProperties['comp_id']]"/>
+        <jdbc-ee:query key="selectAllComponents" value="SELECT * FROM component_table"/>
+        <jdbc-ee:query key="insertComponent" value="INSERT INTO component_table SET name=#[message.inboundProperties['name']], type=#[message.inboundProperties['type']], ref=#[message.inboundProperties['ref']]"/>
+        <jdbc-ee:query key="updateComponent" value="UPDATE component_table SET name=#[message.inboundProperties['name']], type=#[message.inboundProperties['type']], ref=#[message.inboundProperties['ref']] WHERE comp_id=#[message.inboundProperties['comp_id']]"/>
+        <jdbc-ee:query key="deleteComponent" value="DELETE FROM component_table WHERE comp_id=#[message.inboundProperties['comp_id']]"/>
+        <jdbc-ee:query key="findComponentById" value="SELECT * FROM component_table  WHERE comp_id=#[message.inboundProperties['comp_id']]"/>
+        <jdbc-ee:query key="selectAllFeatures" value="SELECT * FROM feature_table"/>
+        <jdbc-ee:query key="insertFeature" value="INSERT INTO feature_table SET name=#[message.inboundProperties['name']]"/>
+        <jdbc-ee:query key="updateFeature" value="UPDATE feature_table SET name=#[message.inboundProperties['name']] WHERE feat_id=#[message.inboundProperties['feat_id]]"/>
+        <jdbc-ee:query key="deleteFeature" value="DELETE FROM feature_table WHERE feat_id=#[message.inboundProperties['feat_id']]"/>
+        <jdbc-ee:query key="findFeatureById" value="SELECT * FROM feature_table WHERE feat_id=#[message.inboundProperties['feat_id']]"/>
     </jdbc-ee:connector>
     <flow name="listAllComponents" doc:name="listAllComponents">
         <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="list" doc:name="HTTP localhost:8081/list"/>
-        <jdbc-ee:outbound-endpoint exchange-pattern="request-response" queryTimeout="-1" connector-ref="Database" doc:name="List all components" queryKey="selectAll"/>
+        <jdbc-ee:outbound-endpoint exchange-pattern="request-response" connector-ref="Database" doc:name="List all components" queryKey="selectAllComponents"/>
         <json:object-to-json-transformer doc:name="Object to JSON"/>
     </flow>
     <flow name="createComponent" doc:name="createComponent">
         <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="create" doc:name="HTTP localhost:8081/create"/>
-        <jdbc-ee:outbound-endpoint exchange-pattern="request-response" queryKey="insertItem" queryTimeout="-1" connector-ref="Database" doc:name="Create new component"/>
-        <jdbc-ee:outbound-endpoint exchange-pattern="request-response" queryKey="selectAll" queryTimeout="-1" connector-ref="Database" doc:name="List all components"/>
+        <jdbc-ee:outbound-endpoint exchange-pattern="request-response" queryKey="insertComponent" connector-ref="Database" doc:name="Create new component"/>
+        <jdbc-ee:outbound-endpoint exchange-pattern="request-response" queryKey="selectAllComponents" connector-ref="Database" doc:name="List all components"/>
         <json:object-to-json-transformer doc:name="Object to JSON"/>
     </flow>
     <flow name="updateComponent" doc:name="updateComponent">
         <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="update" doc:name="HTTP localhost:8081/update"/>
-        <jdbc-ee:outbound-endpoint exchange-pattern="request-response" queryKey="updateItem" queryTimeout="-1" connector-ref="Database" doc:name="Update a component"/>
-        <jdbc-ee:outbound-endpoint exchange-pattern="request-response" queryKey="selectAll" queryTimeout="-1" connector-ref="Database" doc:name="List all components"/>
+        <jdbc-ee:outbound-endpoint exchange-pattern="request-response" queryKey="updateComponent" connector-ref="Database" doc:name="Update a component"/>
+        <jdbc-ee:outbound-endpoint exchange-pattern="request-response" queryKey="selectAllComponents" connector-ref="Database" doc:name="List all components"/>
         <json:object-to-json-transformer doc:name="Object to JSON"/>
     </flow>
     <flow name="deleteComponent" doc:name="deleteComponent">
         <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="delete" doc:name="HTTP localhost:8081/delete"/>
-        <jdbc-ee:outbound-endpoint exchange-pattern="request-response" queryKey="deleteItem" queryTimeout="-1" connector-ref="Database" doc:name="Delete a component"/>
-        <jdbc-ee:outbound-endpoint exchange-pattern="request-response" queryKey="selectAll" queryTimeout="-1" connector-ref="Database" doc:name="List all components"/>
+        <jdbc-ee:outbound-endpoint exchange-pattern="request-response" queryKey="deleteComponent" connector-ref="Database" doc:name="Delete a component"/>
+        <jdbc-ee:outbound-endpoint exchange-pattern="request-response" queryKey="selectAllComponents" connector-ref="Database" doc:name="List all components"/>
         <json:object-to-json-transformer doc:name="Object to JSON"/>
     </flow>
     <flow name="findComponentById" doc:name="findComponentById">
         <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="find" doc:name="HTTP localhost:8081/find"/>
-        <jdbc-ee:outbound-endpoint exchange-pattern="request-response" queryKey="findById" queryTimeout="-1" connector-ref="Database" doc:name="Find a component"/>
+        <jdbc-ee:outbound-endpoint exchange-pattern="request-response" queryKey="findComponentById" connector-ref="Database" doc:name="Find a component"/>
+        <json:object-to-json-transformer doc:name="Object to JSON"/>
+    </flow>
+    <flow name="listAllFeatures2" doc:name="listAllFeatures">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="list2" doc:name="HTTP localhost:8081/list2"/>
+        <jdbc-ee:outbound-endpoint exchange-pattern="request-response" connector-ref="Database" doc:name="List all features" queryKey="selectAllFeatures"/>
+        <json:object-to-json-transformer doc:name="Object to JSON"/>
+    </flow>
+    <flow name="createFeature2" doc:name="createFeature">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="create2" doc:name="HTTP localhost:8081/create2"/>
+        <jdbc-ee:outbound-endpoint exchange-pattern="request-response" queryKey="insertFeature" connector-ref="Database" doc:name="Create new feature"/>
+        <jdbc-ee:outbound-endpoint exchange-pattern="request-response" queryKey="selectAllFeatures" connector-ref="Database" doc:name="List all features"/>
+        <json:object-to-json-transformer doc:name="Object to JSON"/>
+    </flow>
+    <flow name="updateFeature2" doc:name="updateFeature">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="update2" doc:name="HTTP localhost:8081/update2"/>
+        <jdbc-ee:outbound-endpoint exchange-pattern="request-response" queryKey="updateFeature" connector-ref="Database" doc:name="Update a feature"/>
+        <jdbc-ee:outbound-endpoint exchange-pattern="request-response" queryKey="selectAllFeatures" connector-ref="Database" doc:name="List all features"/>
+        <json:object-to-json-transformer doc:name="Object to JSON"/>
+    </flow>
+    <flow name="deleteFeature2" doc:name="deleteFeature">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="delete2" doc:name="HTTP localhost:8081/delete2"/>
+        <jdbc-ee:outbound-endpoint exchange-pattern="request-response" queryKey="deleteFeature" connector-ref="Database" doc:name="Delete a feature"/>
+        <jdbc-ee:outbound-endpoint exchange-pattern="request-response" queryKey="selectAllFeatures" connector-ref="Database" doc:name="List all features"/>
+        <json:object-to-json-transformer doc:name="Object to JSON"/>
+    </flow>
+    <flow name="findFeatureById2" doc:name="findFeatureById">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="find2" doc:name="HTTP localhost:8081/find2"/>
+        <jdbc-ee:outbound-endpoint exchange-pattern="request-response" queryKey="findFeatureById" connector-ref="Database" doc:name="Find a feature"/>
         <json:object-to-json-transformer doc:name="Object to JSON"/>
     </flow>
 </mule>
