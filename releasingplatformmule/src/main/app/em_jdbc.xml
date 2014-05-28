@@ -21,7 +21,7 @@
         <jdbc-ee:query key="updateComponent" value="UPDATE component_table SET name=#[message.inboundProperties['name']], type=#[message.inboundProperties['type']], ref=#[message.inboundProperties['ref']] WHERE comp_id=#[message.inboundProperties['comp_id']]"/>
         <jdbc-ee:query key="deleteComponent" value="DELETE FROM component_table WHERE comp_id=#[message.inboundProperties['comp_id']]"/>
         <jdbc-ee:query key="findComponentById" value="SELECT * FROM component_table  WHERE comp_id=#[message.inboundProperties['comp_id']]"/>
-        <jdbc-ee:query key="selectAllFeatures" value="SELECT * FROM feature_table"/>
+        <jdbc-ee:query key="selectAllFeatures" value="SELECT c.comp_id, c.name, f.feat_id, f.name FROM feature_table AS f, component_table AS c, rel_comp_feat AS rel WHERE rel.comp_id=c.comp_id AND rel.feat_id = f.feat_id"/>
         <jdbc-ee:query key="insertFeature" value="INSERT INTO feature_table SET name=#[message.inboundProperties['name']]"/>
         <jdbc-ee:query key="updateFeature" value="UPDATE feature_table SET name=#[message.inboundProperties['name']] WHERE feat_id=#[message.inboundProperties['feat_id]]"/>
         <jdbc-ee:query key="deleteFeature" value="DELETE FROM feature_table WHERE feat_id=#[message.inboundProperties['feat_id']]"/>
