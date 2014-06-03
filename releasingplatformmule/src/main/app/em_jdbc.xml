@@ -17,7 +17,7 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 http://www.mulesoft.org/schema/mule/ee/jdbc http://www.mulesoft.org/schema/mule/ee/jdbc/current/mule-jdbc-ee.xsd
 http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd">
 	<jdbc-ee:mysql-data-source name="MySQL_Data_Source" user="root" password="" url="jdbc:mysql://localhost:3306/component_dev" transactionIsolation="UNSPECIFIED" doc:name="MySQL Data Source"/>
-    <jdbc-ee:connector name="Database" dataSource-ref="MySQL_Data_Source" validateConnections="true" queryTimeout="-1" pollingFrequency="0" doc:name="Database">
+    <jdbc-ee:connector name="Database" dataSource-ref="MySQL_Data_Source" validateConnections="true" pollingFrequency="0" doc:name="Database">
         <jdbc-ee:query key="selectAllComponents" value="SELECT * FROM component_table"/>
         <jdbc-ee:query key="insertComponent" value="INSERT INTO component_table SET name=#[message.inboundProperties['name']], type=#[message.inboundProperties['type']], ref=#[message.inboundProperties['ref']]"/>
         <jdbc-ee:query key="updateComponent" value="UPDATE component_table SET name=#[message.inboundProperties['name']], type=#[message.inboundProperties['type']], ref=#[message.inboundProperties['ref']] WHERE comp_id=#[message.inboundProperties['comp_id']]"/>
@@ -25,8 +25,8 @@ http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/m
         <jdbc-ee:query key="findComponentById" value="SELECT * FROM component_table  WHERE comp_id=#[message.inboundProperties['comp_id']]"/>
         <jdbc-ee:query key="selectAllFeatures" value="SELECT c.comp_id, c.name, f.feat_id, f.name FROM feature_table AS f, component_table AS c, rel_comp_feat AS rel WHERE rel.comp_id=c.comp_id AND rel.feat_id = f.feat_id"/>
         <jdbc-ee:query key="insertFeature" value="INSERT INTO feature_table SET name=#[message.inboundProperties['name']]"/>
-        <jdbc-ee:query key="insertFeatureId" value="INSERT INTO rel_comp_feat SET feat_id=last_insert_id(), comp_id='202'"/>
-        <jdbc-ee:query key="updateFeature" value="UPDATE feature_table SET name=#[message.inboundProperties['name']] WHERE feat_id=#[message.inboundProperties['feat_id]]"/>
+        <jdbc-ee:query key="insertFeatureId" value="INSERT INTO rel_comp_feat SET feat_id=last_insert_id(), comp_id='63'"/>
+        <jdbc-ee:query key="updateFeature" value="UPDATE feature_table SET name=#[message.inboundProperties['name']] WHERE feat_id=#[message.inboundProperties['feat_id']]"/>
         <jdbc-ee:query key="deleteFeature" value="DELETE FROM feature_table WHERE feat_id=#[message.inboundProperties['feat_id']]"/>
         <jdbc-ee:query key="findFeatureById" value="SELECT * FROM feature_table WHERE feat_id=#[message.inboundProperties['feat_id']]"/>
     </jdbc-ee:connector>

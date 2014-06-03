@@ -1,0 +1,130 @@
+<!DOCTYPE>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+    	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    	<!-- jQuery -->
+		<script type="text/javascript" src="jquery.js"></script>
+		<!-- Bootstrap core CSS -->
+	    <link href="./bootstrap/css/bootstrap.yeti.min.css" type="text/css" rel="stylesheet">
+	    <!-- Custom styles for this template -->
+	    <link href="dashboard.css" type="text/css" rel="stylesheet">
+	    
+	    <title> Releasing Manager </title>
+	</head>
+	
+	<body>
+		<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+		    <div class="container-fluid">
+		      <div class="navbar-header">
+		        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+		          <span class="sr-only">Toggle navigation</span>
+		          <span class="icon-bar"></span>
+		          <span class="icon-bar"></span>
+		          <span class="icon-bar"></span>
+		        </button>
+		        <a class="navbar-brand" href="http://localhost:8081/ui"> Releasing Manager </a>
+		      </div>
+		    </div>
+  		</div>
+		<div class="container-fluid">
+			<div class="row">
+			    <div class="col-sm-3 col-md-2 sidebar">
+			      <ul class="nav nav-sidebar">
+			        <li><a href="http://localhost:8081/em/l" id="entity_navbar">Entity Manager</a></li>
+			        <li class="active"><a href="http://localhost:8081/cm/l">Change Manager</a></li>
+			        <li><a href="http://localhost:8081/rm/l">Release Manager</a></li>
+			        <li><a href="http://localhost:8081/rcm/l">Release Construction Manager</a></li>
+			      </ul>
+			    </div>
+				<!-- Dynamic content -->
+				<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+					<h1 class="page-header">Change Manager</h1>
+	
+					<ul class="nav nav-pills" id="navigation_tabs">
+						<li id="list_li" class="active"><a href="http://localhost:8081/cm/l" id="list_ref"><span class="glyphicon glyphicon-list">
+								</span> List all features </a></li>
+						<li id="create_li"><a href="http://localhost:8081/cm/c" id="create_ref"><span class="glyphicon glyphicon-plus">
+								</span> Create a feature </a></li>
+						<li id="find_li"><a href="http://localhost:8081/cm/f" id="find_ref"><span class="glyphicon glyphicon-search">
+								</span> Find/view a feature </a></li>
+					</ul>
+	
+					<br />
+	
+	
+					<div class="col-lg-10">
+						<!-- Content for list form -->
+						<div class="panel panel-default"
+							style="padding: 15px; border-style: none"
+							id="list_div">
+							
+							<div class="well bs-component">
+								<form class="form-inline" method="GET" id="listForm"
+								action="http://localhost:8081/list2">
+									<div class="form-group">
+										<button type="submit" class="btn btn-sm">List all the features</button>
+										<div id="list_resp" class="modal-body" style="display: none;"></div>
+									</div>
+								</form>
+								<br/><br/>
+								<div class="table-responsive" id="table_div" style="display: none">
+									<table id="list_table" class="table table-striped">
+										<thead>
+											<th>Feat_id</th>
+											<th>Name</th>
+										</thead>
+										<tbody>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<script type="text/javascript" src="jquery.js"></script>
+		<script type="text/javascript" src="jquery.jsonserialize.js"></script>
+		<script type="text/javascript" src="./dynatable/jquery.dynatable.js"></script>
+
+		<script type="text/javascript">
+			$(document).ready(function(){
+
+				// List form script
+				$('#listForm').submit(function(event) {
+			    	event.preventDefault();
+			    
+			    	var $form = $(this),
+				        url = $form.attr("action"),
+				        $list_resp = $('#list_resp'),
+				        $table_div = $('#table_div');
+			    
+				    $.ajax({
+				    	url: url,
+				    	type: "GET"
+				    })
+					    
+				    .done(function (resp) {
+		  				var list_resp_json = JSON.stringify(resp);
+				    	$list_resp.show().text(list_resp_json);
+				        $list_resp.hide();
+				        $table_div.css({display: 'block'});
+		      
+				      	var $response = $('#list_resp'),
+				      		myResponse = JSON.parse($response.text()),
+				      		$resp_j = $response.text();
+		      
+				        $('#list_table').dynatable({
+				  			dataset: {
+				  				records: myResponse
+				  			}
+				  		});
+		    		});
+				});
+			});
+		</script>
+	</body>
+</html>
