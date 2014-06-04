@@ -19,14 +19,13 @@ http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/m
 	<jdbc-ee:mysql-data-source name="MySQL_Data_Source" user="root" password="" url="jdbc:mysql://localhost:3306/component_dev" transactionIsolation="UNSPECIFIED" doc:name="MySQL Data Source"/>
     <jdbc-ee:connector name="Database" dataSource-ref="MySQL_Data_Source" validateConnections="true" pollingFrequency="0" doc:name="Database">
         <jdbc-ee:query key="selectAllComponents" value="SELECT * FROM component_table"/>
-        <jdbc-ee:query key="insertComponent" value="INSERT INTO component_table SET name=#[message.inboundProperties['name']], type=#[message.inboundProperties['type']], ref=#[message.inboundProperties['ref']]"/>
-        <jdbc-ee:query key="updateComponent" value="UPDATE component_table SET name=#[message.inboundProperties['name']], type=#[message.inboundProperties['type']], ref=#[message.inboundProperties['ref']] WHERE comp_id=#[message.inboundProperties['comp_id']]"/>
+        <jdbc-ee:query key="insertComponent" value="INSERT INTO component_table SET comp_name=#[message.inboundProperties['comp_name']], type=#[message.inboundProperties['type']], ref=#[message.inboundProperties['ref']]"/>
+        <jdbc-ee:query key="updateComponent" value="UPDATE component_table SET comp_name=#[message.inboundProperties['comp_name']], type=#[message.inboundProperties['type']], ref=#[message.inboundProperties['ref']] WHERE comp_id=#[message.inboundProperties['comp_id']]"/>
         <jdbc-ee:query key="deleteComponent" value="DELETE FROM component_table WHERE comp_id=#[message.inboundProperties['comp_id']]"/>
         <jdbc-ee:query key="findComponentById" value="SELECT * FROM component_table  WHERE comp_id=#[message.inboundProperties['comp_id']]"/>
-        <jdbc-ee:query key="selectAllFeatures" value="SELECT c.comp_id, c.name, f.feat_id, f.name FROM feature_table AS f, component_table AS c, rel_comp_feat AS rel WHERE rel.comp_id=c.comp_id AND rel.feat_id = f.feat_id"/>
-        <jdbc-ee:query key="insertFeature" value="INSERT INTO feature_table SET name=#[message.inboundProperties['name']]"/>
-        <jdbc-ee:query key="insertFeatureId" value="INSERT INTO rel_comp_feat SET feat_id=last_insert_id(), comp_id='63'"/>
-        <jdbc-ee:query key="updateFeature" value="UPDATE feature_table SET name=#[message.inboundProperties['name']] WHERE feat_id=#[message.inboundProperties['feat_id']]"/>
+        <jdbc-ee:query key="selectAllFeatures" value="SELECT f.comp_id, c.comp_name, f.feat_id, f.feat_name FROM feature_table AS f, component_table AS c WHERE f.comp_id=c.comp_id"/>
+        <jdbc-ee:query key="insertFeature" value="INSERT INTO feature_table SET comp_id=#[message.inboundProperties['comp_id']], feat_name=#[message.inboundProperties['feat_name']]"/>
+        <jdbc-ee:query key="updateFeature" value="UPDATE feature_table SET feat_name=#[message.inboundProperties['feat_name']] WHERE feat_id=#[message.inboundProperties['feat_id']]"/>
         <jdbc-ee:query key="deleteFeature" value="DELETE FROM feature_table WHERE feat_id=#[message.inboundProperties['feat_id']]"/>
         <jdbc-ee:query key="findFeatureById" value="SELECT * FROM feature_table WHERE feat_id=#[message.inboundProperties['feat_id']]"/>
     </jdbc-ee:connector>
@@ -65,10 +64,7 @@ http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/m
     </flow>
     <flow name="createFeature2" doc:name="createFeature2">
         <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="create2" doc:name="HTTP localhost:8081/create2"/>
-        <transactional action="ALWAYS_BEGIN" doc:name="Transaction">
-            <jdbc-ee:outbound-endpoint exchange-pattern="request-response" queryKey="insertFeature" connector-ref="Database" doc:name="Create new feature"/>
-            <jdbc-ee:outbound-endpoint exchange-pattern="request-response" queryKey="insertFeatureId" queryTimeout="-1" connector-ref="Database" doc:name="Put feat_id in join database"/>
-        </transactional>
+        <jdbc-ee:outbound-endpoint exchange-pattern="request-response" queryKey="insertFeature" connector-ref="Database" doc:name="Create new feature"/>
         <jdbc-ee:outbound-endpoint exchange-pattern="request-response" queryKey="selectAllFeatures" connector-ref="Database" doc:name="List all features"/>
         <json:object-to-json-transformer doc:name="Object to JSON"/>
     </flow>

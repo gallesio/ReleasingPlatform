@@ -8,8 +8,8 @@ http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/jso
 http://www.mulesoft.org/schema/mule/ee/jdbc http://www.mulesoft.org/schema/mule/ee/jdbc/current/mule-jdbc-ee.xsd">
     <jdbc-ee:connector name="RM_Database" dataSource-ref="MySQL_Data_Source_Release" validateConnections="true" queryTimeout="-1" pollingFrequency="0" doc:name="Database">
         <jdbc-ee:query key="selectAll" value="SELECT * FROM rm_release"/>
-        <jdbc-ee:query key="insertItem" value="INSERT INTO rm_release SET name=#[message.inboundProperties['name']], status=#[message.inboundProperties['status']], owner=#[message.inboundProperties['owner']]"/>
-        <jdbc-ee:query key="updateItem" value="UPDATE rm_release SET name=#[message.inboundProperties['name']], status=#[message.inboundProperties['status']], owner=#[message.inboundProperties['owner']]"/>
+        <jdbc-ee:query key="insertItem" value="INSERT INTO rm_release SET Rname=#[message.inboundProperties['Rname']], status=#[message.inboundProperties['status']], owner=#[message.inboundProperties['owner']]"/>
+        <jdbc-ee:query key="updateItem" value="UPDATE rm_release SET Rname=#[message.inboundProperties['Rname']], status=#[message.inboundProperties['status']], owner=#[message.inboundProperties['owner']]"/>
         <jdbc-ee:query key="deleteItem" value="DELETE FROM rm_release WHERE Rid=#[message.inboundProperties['Rid']]"/>
         <jdbc-ee:query key="findById" value="SELECT * FROM rm_release WHERE Rid=#[message.inboundProperties['Rid']]"/>
     </jdbc-ee:connector>

@@ -8,9 +8,14 @@ http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/jso
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
 http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
-	<flow name="ChangeManagerUserInterface" doc:name="ChangeManagerUserInterface">
+	<flow name="ChangeManagerUserInterface-List" doc:name="ChangeManagerUserInterface-List">
         <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="cm/l" doc:name="HTTP localhost:8081/cm/l"/>
         <filter ref="Not" doc:name="Exclude /favicon.ico"/>
-        <http:static-resource-handler resourceBase="${app.home}/web" defaultFile="cm_list.html" doc:name="CM"/>
+        <http:static-resource-handler resourceBase="${app.home}/web" defaultFile="cm_list.html" doc:name="CM List"/>
+    </flow>
+    <flow name="ChangeManagerUserInterface-Create" doc:name="ChangeManagerUserInterface-Create">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="cm/c" doc:name="HTTP localhost:8081/cm/c"/>
+        <filter ref="Not" doc:name="Exclude /favicon.ico"/>
+        <http:static-resource-handler resourceBase="${app.home}/web" defaultFile="cm_create.html" doc:name="CM Create"/>
     </flow>
 </mule>
