@@ -75,7 +75,7 @@
 									action="http://localhost:8081/create">
 									<fieldset>
 										<div class="form-group">
-											<label for="Rname" class="col-lg-2 control-label">Name</label>
+											<label for="Rname" class="col-lg-2 control-label">Release Name</label>
 											<div class="col-lg-10">
 												<input type="text" class="form-control" id="Rname" value="release1"></input>
 											</div>
@@ -109,6 +109,8 @@
 			          			</form>
 			          				
 			          			<div id="create_resp" class="modal-body"></div>
+			          			<div id="comp_result" style="display:none">
+								</div>
 			          		</div>
 						</div>
 					</div>
@@ -121,7 +123,33 @@
 		<script type="text/javascript" src="./dynatable/jquery.dynatable.js"></script>
 
 		<script type="text/javascript">
-			$(document).ready(function(){
+			$(document).ready(function() {
+				
+				$.ajax({
+					url: "http://localhost:8081/list",
+					type: "GET"
+				})
+				.done(function(resp) {
+					var $options = $('#components_list');
+					
+					$.each(resp, function() {
+						//$options.append($("<option>").text(this.name));
+						$options.append($("<option>").text(this.comp_name + " (" + this.comp_id + ")").val(this.comp_id));
+					});
+					
+					var $component_value = $('#components_choice :selected').val();
+					$('#comp_result').text($component_value);
+					
+					
+				});
+				
+				$('#components_choice').click(function() {
+					var $component_value = $('#components_choice :selected').val();
+					$('#comp_result').text($component_value);
+					$('#comp_id').val($component_value);
+				});
+				
+				
 				var $success = $('#success'),
 					$error	 = $('#error');
 				$success.hide();
@@ -154,7 +182,9 @@
 			            json = JSON.stringify(variable),
 			            name_value   = document.getElementById('name').value,
 			            status_value = document.getElementById('status').value,
-			            owner_value  = document.getElementById('owner').value;
+			            owner_value  = document.getElementById('owner').value,
+			            comp_value = document.getElementById('comp_id').value,
+			            $component_value = $('#components_choice :selected').val();
 		            
 		            if (name_value == "" || status_value == "" || owner_value == "") {
 		            	$error.html("<span class='glyphicon glyphicon-remove'></span> &nbsp; Warning ! Your crelease is not created because one or some fields are empty !");
@@ -163,11 +193,11 @@
 		            } else {
 		            	$.ajax({
 			            	url: url,
-			            		type: "GET",
-			            		data: { name: name_value,
-			            				status: status_value,
-			           					owner: owner_value
-			            			  },
+			            	type: "GET",
+			            	data: { name: name_value,
+			            			status: status_value,
+			           				owner: owner_value
+			            			 },
 			            })
 	
 			            .done(function(resp) {
