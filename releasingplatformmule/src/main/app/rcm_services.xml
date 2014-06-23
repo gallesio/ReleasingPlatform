@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:jersey="http://www.mulesoft.org/schema/mule/jersey"
+<mule xmlns:jdbc-ee="http://www.mulesoft.org/schema/mule/ee/jdbc" xmlns:json="http://www.mulesoft.org/schema/mule/json" xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns:mulexml="http://www.mulesoft.org/schema/mule/xml" xmlns:jersey="http://www.mulesoft.org/schema/mule/jersey"
 	xmlns:http="http://www.mulesoft.org/schema/mule/http"
 	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:spring="http://www.springframework.org/schema/beans" version="EE-3.4.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/jersey http://www.mulesoft.org/schema/mule/jersey/current/mule-jersey.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
-http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/jdbc http://www.mulesoft.org/schema/mule/ee/jdbc/current/mule-jdbc-ee.xsd
+http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd
+http://www.mulesoft.org/schema/mule/xml http://www.mulesoft.org/schema/mule/xml/current/mule-xml.xsd
+http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd">
 	<flow name="RCM" doc:name="RCM">
         <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="14000" doc:name="HTTP localhost:14000"/>
         <set-property propertyName="Access-Control-Allow-Origin" value="*" doc:name="Access-Control-Allow-Origin" />
@@ -53,6 +57,12 @@ http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/cor
         <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="12007" doc:name="HTTP localhost:12007"/>
         <jersey:resources doc:name="Promote">
             <component class="services.PromoteResource"/>
+        </jersey:resources>
+    </flow>
+    <flow name="testapicompFlow" doc:name="testapicompFlow">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="rest" doc:name="HTTP localhost:8081/rest"/>
+        <jersey:resources doc:name="REST ComponentResource">
+            <component class="services.ComponentResource"/>
         </jersey:resources>
     </flow>
 </mule>

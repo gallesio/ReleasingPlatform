@@ -10,5 +10,10 @@
 	<classpathentry kind="lib" path="C:/Users/A571569/Downloads/javax.ws.rs-api-2.0-sources.jar"/>
 	<classpathentry kind="lib" path="C:/Users/A571569/Downloads/jersey-bundle-1.18.jar"/>
 	<classpathentry kind="lib" path="C:/Tools/Libraries/mysql-connector-java-5.1.18-bin.jar"/>
+	<classpathentry kind="lib" path="C:/Users/A571569.WW930/Downloads/ejb3-persistence.jar"/>
+	<classpathentry kind="lib" path="C:/Users/A571569.WW930/Downloads/hibernate-3.2/hibernate3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/A571569.WW930/Downloads/slf4j-api-1.5.8.jar/slf4j-api-1.5.8.jar"/>
+	<classpathentry kind="lib" path="C:/Users/A571569.WW930/Downloads/slf4j-1.5.2.zip"/>
+	<classpathentry kind="lib" path="conf"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
