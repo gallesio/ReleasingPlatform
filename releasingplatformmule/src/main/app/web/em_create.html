@@ -69,13 +69,13 @@
 							<div class="alert alert-danger"  id="error"></div>
 							
 							<div class="well bs-component">
-								<form class="form-horizontal" method="GET" id="createForm" 
-									action="http://localhost:8081/create">
+								<form class="form-horizontal" method="POST" id="createForm" 
+									action="http://localhost:8081/rest/components">
 									<fieldset>
 										<div class="form-group">
-											<label for="comp_name" class="col-lg-2 control-label"> Component Name</label>
+											<label for="name" class="col-lg-2 control-label"> Component Name</label>
 											<div class="col-lg-10">
-												<input type="text" class="form-control" id="comp_name" value="component1"></input>
+												<input type="text" class="form-control" id="name" value="component1"></input>
 											</div>
 										</div>
 										<div class="form-group">
@@ -136,7 +136,7 @@
 		            } else {
 		            	$.ajax({
 			            	url: url,
-			            		type: "GET",
+			            		type: "POST",
 			            		data: { name: name_value,
 			            				type: type_value,
 			           					ref: ref_value

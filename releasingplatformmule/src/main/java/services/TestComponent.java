@@ -11,21 +11,21 @@ import services.SessionFactoryUtil;
 
 public class TestComponent {
 
-	private static void queryPerson(Session session) {
+	private static void queryComponent(Session session) {
 
-		Query query = session.createQuery("from Person");      
+		Query query = session.createQuery("from Component");      
 
 		List <Component>list = query.list();
 		Iterator<Component> iter = list.iterator();
 
 		while (iter.hasNext()) {
 			Component component = iter.next();
-			System.out.println("Person: " + component.getName() +", " + component.getType() +", " +component.getRef());
+			System.out.println("Component : " + component.getName() + ", " + component.getType() + ", " + component.getRef() + ", " + component.getId());
 		}
 		session.getTransaction().commit();
 	}
 
-	public static void createPerson(Session session) {
+	public static void createComponent(Session session) {
 		Component component = new Component();
 		component.setName("NAME");
 		component.setType("TYPE");      
@@ -33,14 +33,18 @@ public class TestComponent {
 
 		session.save(component);
 	}
+	
+	public static void listComponents(Session session) {
+		
+	}
 
 
 	public static void main(String[] args) {
 
 		Session session = SessionFactoryUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
-		createPerson(session);
-		queryPerson(session);
+		createComponent(session);
+		queryComponent(session);
 	}
 
 }

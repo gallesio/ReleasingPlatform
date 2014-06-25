@@ -11,50 +11,50 @@ http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/jso
 http://www.mulesoft.org/schema/mule/xml http://www.mulesoft.org/schema/mule/xml/current/mule-xml.xsd
 http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd">
 	<flow name="RCM" doc:name="RCM">
-        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="14000" doc:name="HTTP localhost:14000"/>
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="14444" doc:name="HTTP localhost:14444"/>
         <set-property propertyName="Access-Control-Allow-Origin" value="*" doc:name="Access-Control-Allow-Origin" />
         <jersey:resources doc:name="RCM">
             <component class="services.RCM"/>
         </jersey:resources>
     </flow>
     <flow name="CheckOut" doc:name="CheckOut">
-        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="12001" doc:name="HTTP localhost:12001"/>
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="12221" doc:name="HTTP localhost:12221"/>
         <jersey:resources doc:name="Check Out">
             <component class="services.CheckOutResource"/>
         </jersey:resources>
     </flow>
     <flow name="Compilation" doc:name="Compilation">
-        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="12002"  doc:name="HTTP localhost:12002"/>
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="12222"  doc:name="HTTP localhost:12222"/>
         <jersey:resources doc:name="Compilation">
             <component class="services.CompilationResource"/>
         </jersey:resources>
     </flow>
     <flow name="Tests" doc:name="Tests">
-        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="12003"  doc:name="HTTP localhost:12003"/>
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="12223"  doc:name="HTTP localhost:12223"/>
         <jersey:resources doc:name="Check">
             <component class="services.CheckResource"/>
         </jersey:resources>
     </flow>
     <flow name="Deliver" doc:name="Deliver">
-        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="12004"  doc:name="HTTP localhost:12004"/>
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="12224"  doc:name="HTTP localhost:12224"/>
         <jersey:resources doc:name="Deliver">
             <component class="services.DeliverResource"/>
         </jersey:resources>
     </flow>
     <flow name="Publish" doc:name="Publish">
-        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="12005"  doc:name="HTTP localhost:12005"/>
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="12225"  doc:name="HTTP localhost:12225"/>
         <jersey:resources doc:name="Publish">
             <component class="services.PublishResource"/>
         </jersey:resources>
     </flow>
     <flow name="Copy" doc:name="Copy">
-        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="12006" doc:name="HTTP localhost:12006"/>
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="12226" doc:name="HTTP localhost:12226"/>
         <jersey:resources doc:name="Copy">
             <component class="services.CopyResource"/>
         </jersey:resources>
     </flow>
     <flow name="Promote" doc:name="Promote">
-        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="12007" doc:name="HTTP localhost:12007"/>
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="12227" doc:name="HTTP localhost:12227"/>
         <jersey:resources doc:name="Promote">
             <component class="services.PromoteResource"/>
         </jersey:resources>

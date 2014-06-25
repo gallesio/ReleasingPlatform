@@ -26,20 +26,33 @@
 					</button>
 					<a class="navbar-brand" href="http://localhost:8081/ui"> Releasing Manager </a>
 				</div>
+				<div class="navbar-collapse collapse">
+			      	<ul class="nav navbar-nav">
+			        	<li><a href="http://localhost:8081/em/l">Entity Manager</a></li>
+			        	<li><a href="http://localhost:8081/cm/l">Change Manager</a></li>
+						<li><a href="http://localhost:8081/rm/l">Release Manager</a></li>
+						<li class="active"><a href="http://localhost:8081/rcm/l">Release Construction Manager</a></li>
+			        </ul>
+			    </div>
 			</div>
 		</div>
 	
 
 		<div class="container-fluid">
 			<div class="row">
-	
+
 				<!-- Static navigation side bar -->
 				<div class="col-sm-3 col-md-2 sidebar">
 					<ul class="nav nav-sidebar">
-						<li><a href="http://localhost:8081/em/l">Entity Manager</a></li>
-						<li><a href="http://localhost:8081/cm/l">Change Manager</a></li>
-						<li><a href="http://localhost:8081/rm/l">Release Manager</a></li>
-						<li class="active"><a href="http://localhost:8081/rcm/l">Release Construction Manager</a></li>
+						<li id="list_li"><a href="http://localhost:8081/rcm/l" id="list_ref">
+							<span class="glyphicon glyphicon-list"></span> List all components </a>
+						</li>
+						<li id="hist_li"><a href="http://localhost:8081/rcm/h" id="hist_ref"><span class="glyphicon glyphicon-list">
+								</span> List history of release constructions </a></li>
+						<li id="create_li" class="active"><a href="http://localhost:8081/rcm/c" id="create_ref"><span class="glyphicon glyphicon-plus">
+								</span> Create a component </a></li>
+						<li id="find_li"><a href="http://localhost:8081/rcm/f" id="find_ref"><span class="glyphicon glyphicon-search">
+								</span> Find/view a component </a></li>
 					</ul>
 				</div>
 
@@ -48,19 +61,6 @@
 				<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 					<h1 class="page-header">Release Construction Manager</h1>
 	
-					<ul class="nav nav-pills" id="navigation_tabs">
-						<li id="list_li"><a href="http://localhost:8081/rcm/l" id="list_ref"><span class="glyphicon glyphicon-list">
-								</span> List all active release constructions </a></li>
-						<li id="hist_li"><a href="http://localhost:8081/rcm/h" id="hist_ref"><span class="glyphicon glyphicon-list">
-								</span> List history of release constructions </a></li>
-						<li id="create_li" class="active"><a href="http://localhost:8081/rcm/c" id="create_ref"><span class="glyphicon glyphicon-plus">
-								</span> Create a release construction </a></li>
-						<li id="find_li"><a href="http://localhost:8081/rcm/f" id="find_ref"><span class="glyphicon glyphicon-search">
-								</span> Find/view a release construction </a></li>
-					</ul>
-	
-					<br />
-
 					<div class="col-lg-10">
 						<!-- Content for find form -->
 						<div class="panel panel-default"

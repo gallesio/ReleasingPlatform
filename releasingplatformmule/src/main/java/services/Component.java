@@ -12,7 +12,7 @@ public class Component {
 	
 	@Id @GeneratedValue
 	@Column(name = "id")
-	int id;
+	Long id;
 	
 	@Column(name = "name")
 	String name;
@@ -23,11 +23,11 @@ public class Component {
 	@Column(name = "ref")
 	String ref;
 	
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 	
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	
@@ -56,10 +56,10 @@ public class Component {
 	}
 	
 	public Component() {
-		this(0, "component-test-list", "comp-type-test", "comp-ref-test");
+		this(0L, "component-test-list", "comp-type-test", "comp-ref-test");
 	}
 	
-	public Component(int id, String name, String type, String ref) {
+	public Component(Long id, String name, String type, String ref) {
 		this.id = id;
 		this.name = name;
 		this.type = type;
