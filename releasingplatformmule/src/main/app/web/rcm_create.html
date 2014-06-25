@@ -13,31 +13,57 @@
 		<link href="dashboard.css" type="text/css" rel="stylesheet">
 	</head>
 	<body>
-
-		<!-- Static navigation header bar -->
 		<div class="navbar navbar-default navbar-fixed-top" role="navigation">
-			<div class="container-fluid">
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle" data-toggle="collapse"
-						data-target=".navbar-collapse">
-						<span class="sr-only">Toggle navigation</span> <span
-							class="icon-bar"></span> <span class="icon-bar"></span> <span
-							class="icon-bar"></span>
-					</button>
-					<a class="navbar-brand" href="http://localhost:8081/ui"> Releasing Manager </a>
-				</div>
-				<div class="navbar-collapse collapse">
-			      	<ul class="nav navbar-nav">
-			        	<li><a href="http://localhost:8081/em/l">Entity Manager</a></li>
-			        	<li><a href="http://localhost:8081/cm/l">Change Manager</a></li>
-						<li><a href="http://localhost:8081/rm/l">Release Manager</a></li>
-						<li class="active"><a href="http://localhost:8081/rcm/l">Release Construction Manager</a></li>
-			        </ul>
-			    </div>
-			</div>
-		</div>
-	
-
+		    <div class="container-fluid">
+		      <div class="navbar-header">
+		        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+		          <span class="sr-only">Toggle navigation</span>
+		          <span class="icon-bar"></span>
+		          <span class="icon-bar"></span>
+		          <span class="icon-bar"></span>
+		        </button>
+		        <a class="navbar-brand" href="http://localhost:8081/ui"> Releasing Manager </a>
+		      </div>
+		      <div class="navbar-collapse collapse">
+		      	<ul class="nav navbar-nav">
+		      		<li class="dropdown" id="entity_dropdown">
+			          <a href="http://localhost:8081/em/l" class="dropdown-toggle" data-toggle="dropdown">Entity Manager<b class="caret"></b></a>
+			          <ul class="dropdown-menu">
+			            <li class="active"><a href="http://localhost:8081/em/l">List all components</a></li>
+			            <li><a href="http://localhost:8081/em/c">Create a component</a></li>
+			            <li><a href="http://localhost:8081/em/f">Find/view a component</a></li>
+			          </ul>
+			        </li>
+			        <li class="dropdown" id="change_dropdown">
+			          <a href="http://localhost:8081/cm/l" class="dropdown-toggle" data-toggle="dropdown">Change Manager<b class="caret"></b></a>
+			          <ul class="dropdown-menu">
+			            <li><a href="http://localhost:8081/cm/l">List all features</a></li>
+			            <li><a href="http://localhost:8081/cm/c">Create a feature</a></li>
+			            <li><a href="http://localhost:8081/cm/f">Find/view a feature</a></li>
+			          </ul>
+			        </li>
+			        <li class="dropdown" id="release_dropdown">
+			          <a href="http://localhost:8081/em/l" class="dropdown-toggle" data-toggle="dropdown">Release Manager<b class="caret"></b></a>
+			          <ul class="dropdown-menu">
+			            <li><a href="http://localhost:8081/rm/l">List all releases</a></li>
+			            <li><a href="http://localhost:8081/rm/h">List history of releases</a></li>
+			            <li><a href="http://localhost:8081/rm/c">Declare a release</a></li>
+			            <li><a href="http://localhost:8081/rm/f">Find/view a release</a></li>
+			          </ul>
+			        </li>
+			        <li class="dropdown" id="release_construction_dropdown" class="active">
+			          <a href="http://localhost:8081/em/l" class="dropdown-toggle" data-toggle="dropdown">Release Manager<b class="caret"></b></a>
+			          <ul class="dropdown-menu">
+			            <li><a href="http://localhost:8081/rcm/l">List all release constructions</a></li>
+			            <li><a href="http://localhost:8081/rcm/h">List history of release constructions</a></li>
+			            <li class="active"><a href="http://localhost:8081/rcm/c">Create a release construction</a></li>
+			            <li><a href="http://localhost:8081/rcm/f">Find/view a release construction</a></li>
+			          </ul>
+			        </li>
+		        </ul>
+			 </div>
+		    </div>
+  		</div>
 		<div class="container-fluid">
 			<div class="row">
 
