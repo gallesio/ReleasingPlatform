@@ -99,21 +99,21 @@
 									action="http://localhost:8081/rest/components">
 									<fieldset>
 										<div class="form-group">
-											<label for="name" class="col-lg-2 control-label"> Component Name</label>
+											<label for="comp_name" class="col-lg-2 control-label"> Component Name</label>
 											<div class="col-lg-10">
-												<input type="text" class="form-control" id="name" value="component1"></input>
+												<input type="text" class="form-control" id="comp_name" value="component1"></input>
 											</div>
 										</div>
 										<div class="form-group">
-											<label for="type" class="col-lg-2 control-label">Type</label>
+											<label for="comp_type" class="col-lg-2 control-label">Type</label>
 											<div class="col-lg-10">
-												<input type="text" class="form-control" id="type" value="java"></input>
+												<input type="text" class="form-control" id="comp_type" value="java"></input>
 											</div>
 										</div>
 										<div class="form-group">
-					        				<label for="ref" class="col-lg-2 control-label">Ref</label>
+					        				<label for="comp_ref" class="col-lg-2 control-label">Ref</label>
 											<div class="col-lg-10">
-												<input type="text" class="form-control" id="ref"  value="github"></input>
+												<input type="text" class="form-control" id="comp_ref"  value="github"></input>
 											</div>
 										</div>
 				        				<div id="create_resp" class="modal-body" style="display: none;"></div>
@@ -151,9 +151,9 @@
 			            $create_resp = $('#create_resp'),
 			            variable = $form.serializeJSON(),
 			            json = JSON.stringify(variable),
-			            name_value = document.getElementById('name').value,
-			            type_value = document.getElementById('type').value,
-			            ref_value  = document.getElementById('ref').value;
+			            name_value = document.getElementById('comp_name').value,
+			            type_value = document.getElementById('comp_type').value,
+			            ref_value  = document.getElementById('comp_ref').value;
 		            
 		            if (name_value == "" || type_value == "" || ref_value == "") {
 		            	$error.html("<span class='glyphicon glyphicon-remove'></span> &nbsp; Warning ! Your component is not created because one or some fields are empty !");
@@ -163,9 +163,9 @@
 		            	$.ajax({
 			            	url: url,
 			            		type: "POST",
-			            		data: { name: name_value,
-			            				type: type_value,
-			           					ref: ref_value
+			            		data: { comp_name: name_value,
+			            				comp_type: type_value,
+			           					comp_ref: ref_value
 			            			  },
 			            })
 
