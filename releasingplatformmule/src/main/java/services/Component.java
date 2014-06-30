@@ -34,7 +34,7 @@ public class Component {
 	
 	@Column(name = "COMP_NAME", nullable = false, length = 250)
 	public String getName() {
-		return comp_name;
+		return comp_name;   
 	}
 	public void setName(String name) {
 		this.comp_name = name;
