@@ -63,6 +63,7 @@ http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/m
         <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="rest" doc:name="HTTP localhost:8081/rest"/>
         <jersey:resources doc:name="REST ComponentResource">
             <component class="services.ComponentResource"/>
+            <component class="services.FeatureResource"/>
         </jersey:resources>
     </flow>
 </mule>

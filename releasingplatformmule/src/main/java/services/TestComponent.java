@@ -1,50 +1,35 @@
 package services;
 
-import java.util.Iterator;
-import java.util.List;
-
-import org.hibernate.Query;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import services.Component;
+import services.Feature;
 import services.SessionFactoryUtil;
 
 public class TestComponent {
 
-	private static void queryComponent(Session session) {
-
-		Query query = session.createQuery("from Component");      
-
-		List <Component>list = query.list();
-		Iterator<Component> iter = list.iterator();
-
-		while (iter.hasNext()) {
-			Component component = iter.next();
-			System.out.println("Component : " + component.getName() + ", " + component.getType() + ", " + component.getRef() + ", " + component.getId());
-		}
-		session.getTransaction().commit();
-	}
-
-	public static void createComponent(Session session) {
-		Component component = new Component();
-		component.setName("NAME");
-		component.setType("TYPE");      
-		component.setRef("REF");      
-
-		session.save(component);
-	}
-	
-	public static void listComponents(Session session) {
-		
-	}
-
-
 	public static void main(String[] args) {
 
-		Session session = SessionFactoryUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-		createComponent(session);
-		queryComponent(session);
+		Session session = SessionFactoryUtil.getSessionFactory().openSession();
+		Transaction transaction = null;
+		try {
+			transaction = session.beginTransaction();
+			Component component = new Component("TEST_COMP_NAME_MAIN", "TEST_COMP_TYPE_MAIN", "TEST_COMP_REF_MAIN");
+			
+			Feature feature1 = new Feature("TEST_FEAT_NAME_MAIN1", component);
+			Feature feature2 = new Feature("TEST_FEAT_NAME_MAIN2", component);
+			session.save(feature1);
+			session.save(feature2);
+			transaction.commit();
+		} catch (HibernateException e) {
+			transaction.rollback();
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		
 	}
 
 }

@@ -15,10 +15,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import org.apache.cxf.common.util.ReflectionInvokationHandler.UnwrapParam;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 
@@ -51,8 +49,36 @@ public class ComponentResource {
 			//session.close();
 		}
 		
+		System.out.println("components list : " + componentsList);
+		
 		return componentsList;
 	}
+	
+	@GET
+	@Path("{id}")
+	@Consumes("appication/x-www-urlencoded")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Component getComponentById(@PathParam("id") long id) {
+		Session session = SessionFactoryUtil.getSessionFactory().getCurrentSession();
+		Transaction transaction = null;
+		Component component = null;
+		
+		try {
+			transaction = session.beginTransaction();
+			component = (Component) session.createQuery("from Component where comp_id =: id").setParameter("id", id).uniqueResult();
+			
+			transaction.commit();
+		} catch (HibernateException e) {
+			if (transaction != null)
+				transaction.rollback();
+			e.printStackTrace();
+		} finally {
+			//session.close();
+		}
+		
+		return component;
+	}
+	
 	
 	@POST
 	@Consumes("application/x-www-form-urlencoded")
@@ -133,4 +159,5 @@ public class ComponentResource {
 		
 		System.out.println("It has been deleted");
 	}
+	
 }

@@ -171,7 +171,7 @@
 
 			            .done(function(resp) {
 			            	$create_resp.text(JSON.stringify(resp));
-			            	$success.html("<span class='glyphicon glyphicon-ok'></span> &nbsp; The component <b>" + name_value + "</b> was created successfully ! See the <a href='http://localhost:8081/em/l'>components list</a> for more details. ");
+			            	$success.html("<span class='glyphicon glyphicon-ok'></span> &nbsp; The component <b>" + name_value + "</b> was created successfully ! It's identifier is : " + resp + " See the <a href='http://localhost:8081/em/l'>components list</a> for more details. ");
 			            	$success.show();
 			            	$error.hide();
 			            	//$(location).attr('href',"http://localhost:8081/em/l");

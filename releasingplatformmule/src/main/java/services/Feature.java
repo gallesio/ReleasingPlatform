@@ -1,46 +1,50 @@
 package services;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "feature")
+@Table(name = "FEATURE")
 public class Feature {
-	
-	@Id @GeneratedValue
-	@Column(name = "feat_id")
-	Long feat_id;
-	
-	@Column(name = "comp_id")
-	Long comp_id;
-	
-	@Column(name = "feat_name")
-	String feat_name;
 
-	public Long getFeat_id() {
-		return feat_id;
+	private long feat_id;
+	private Component component;
+	private String feat_name;
+	
+	public Feature() {}
+	
+	public Feature(String name, Component component) {
+		this.feat_name = name;
+		this.component = component;
 	}
 
-	public void setFeat_id(Long id) {
+	@Id @GeneratedValue
+	@Column(name = "FEAT_ID")
+	public long getId() {
+		return feat_id;
+	}
+	public void setId(long id) {
 		this.feat_id = id;
 	}
 
-	public Long getComp_id() {
-		return comp_id;
+	@ManyToOne(cascade = CascadeType.ALL)
+	public Component getComponent() {
+		return component;
+	}
+	public void setComponent(Component component) {
+		this.component = component;
 	}
 
-	public void setComp_id(Long id) {
-		this.comp_id = id;
-	}
-
-	public String getFeat_name() {
+	@Column(name = "FEAT_NAME", nullable = false, length = 250)
+	public String getName() {
 		return feat_name;
 	}
-
-	public void setFeat_name(String name) {
+	public void setName(String name) {
 		this.feat_name = name;
 	}
 }
