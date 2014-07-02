@@ -26,6 +26,8 @@
 	
 		<mapping class="services.Component" />
 		<mapping class="services.Feature" />
+		<mapping class="services.Release" />
+		<mapping class="services.ReleaseConstruction" />
 	</session-factory>
 	
 </hibernate-configuration>

@@ -7,7 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "COMPONENT")
+@Table(name = "COMPONENTS")
 public class Component {
 	
 	private long comp_id;

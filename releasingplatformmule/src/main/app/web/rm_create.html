@@ -11,55 +11,28 @@
 			rel="stylesheet">
 		<!-- Custom styles for this template -->
 		<link href="dashboard.css" type="text/css" rel="stylesheet">
+		<link rel="stylesheet" href="./bootstrap-multiselect/css/bootstrap-multiselect.css" type="text/css"/>
 	</head>
 	<body>
 		<div class="navbar navbar-default navbar-fixed-top" role="navigation">
-		    <div class="container-fluid">
-		      <div class="navbar-header">
-		        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-		          <span class="sr-only">Toggle navigation</span>
-		          <span class="icon-bar"></span>
-		          <span class="icon-bar"></span>
-		          <span class="icon-bar"></span>
-		        </button>
-		        <a class="navbar-brand" href="http://localhost:8081/ui"> Releasing Manager </a>
-		      </div>
 		      <div class="navbar-collapse collapse">
 		      	<ul class="nav navbar-nav">
-		      		<li class="dropdown" id="entity_dropdown">
-			          <a href="http://localhost:8081/em/l" class="dropdown-toggle" data-toggle="dropdown">Entity Manager<b class="caret"></b></a>
-			          <ul class="dropdown-menu">
-			            <li class="active"><a href="http://localhost:8081/em/l">List all components</a></li>
-			            <li><a href="http://localhost:8081/em/c">Create a component</a></li>
-			            <li><a href="http://localhost:8081/em/f">Find/view a component</a></li>
+		      		<li class="dropdown">
+			          <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Release Manager <span class="caret"></span></a>
+			          <ul class="dropdown-menu" role="menu">
+			            <li id="em_menu"><a href="http://localhost:8081/em/l">Entity Manager </a></li>
+			            <li id="cm_menu"><a href="http://localhost:8081/cm/l">Change Manager </a></li>
+			            <li id="rm_menu" class="active"><a href="http://localhost:8081/rm/l">Release Manager </a></li>
+			            <li id="rcm_menu"><a href="http://localhost:8081/rcm/l">Release Construction Manager </a></li>
 			          </ul>
 			        </li>
-			        <li class="dropdown" id="change_dropdown">
-			          <a href="http://localhost:8081/cm/l" class="dropdown-toggle" data-toggle="dropdown">Change Manager<b class="caret"></b></a>
-			          <ul class="dropdown-menu">
-			            <li><a href="http://localhost:8081/cm/l">List all features</a></li>
-			            <li><a href="http://localhost:8081/cm/c">Create a feature</a></li>
-			            <li><a href="http://localhost:8081/cm/f">Find/view a feature</a></li>
-			          </ul>
-			        </li>
-			        <li class="dropdown" id="release_dropdown" class="active">
-			          <a href="http://localhost:8081/em/l" class="dropdown-toggle" data-toggle="dropdown">Release Manager<b class="caret"></b></a>
-			          <ul class="dropdown-menu">
-			            <li><a href="http://localhost:8081/rm/l">List all releases</a></li>
-			            <li><a href="http://localhost:8081/rm/h">List history of releases</a></li>
-			            <li class="active"><a href="http://localhost:8081/rm/c">Declare a release</a></li>
-			            <li><a href="http://localhost:8081/rm/f">Find/view a release</a></li>
-			          </ul>
-			        </li>
-			        <li class="dropdown" id="release_construction_dropdown">
-			          <a href="http://localhost:8081/em/l" class="dropdown-toggle" data-toggle="dropdown">Release Manager<b class="caret"></b></a>
-			          <ul class="dropdown-menu">
-			            <li><a href="http://localhost:8081/rcm/l">List all release constructions</a></li>
-			            <li><a href="http://localhost:8081/rcm/h">List history of release constructions</a></li>
-			            <li><a href="http://localhost:8081/rcm/c">Create a release construction</a></li>
-			            <li><a href="http://localhost:8081/rcm/f">Find/view a release construction</a></li>
-			          </ul>
-			        </li>
+			        
+			        <li><a href="http://localhost:8081/rm/l"><span class="glyphicon glyphicon-list">
+								</span> List all releases</a></li>
+			        <li class="active"><a href="http://localhost:8081/rm/c"><span class="glyphicon glyphicon-plus">
+								</span> Create a release</a></li>
+			        <li><a href="http://localhost:8081/rm/f"><span class="glyphicon glyphicon-search">
+								</span> Find/view a release</a></li>
 		        </ul>
 			 </div>
 		    </div>
@@ -67,22 +40,6 @@
 		<div class="container-fluid">
 			<div class="row">
 	
-				<!-- Static navigation side bar -->
-				<div class="col-sm-3 col-md-2 sidebar">
-					<ul class="nav nav-sidebar">
-						<li id="list_li"><a href="http://localhost:8081/rm/l" id="list_ref">
-							<span class="glyphicon glyphicon-list"></span> List all components </a>
-						</li>
-						<li id="hist_li"><a href="http://localhost:8081/rm/h" id="hist_ref"><span class="glyphicon glyphicon-list">
-								</span> List history of releases</a></li>
-						<li id="create_li" class="active"><a href="http://localhost:8081/rm/c" id="create_ref"><span class="glyphicon glyphicon-plus">
-								</span> Create a component </a></li>
-						<li id="find_li"><a href="http://localhost:8081/rm/f" id="find_ref"><span class="glyphicon glyphicon-search">
-								</span> Find/view a component </a></li>
-					</ul>
-				</div>
-
-
 				<!-- Dynamic content -->
 				<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 					<h1 class="page-header">Release Manager</h1>
@@ -97,25 +54,37 @@
 							<div class="alert alert-danger"  id="error"></div>
 							
 							<div class="well bs-component">
-								<form class="form-horizontal" method="GET" id="createForm" 
-									action="http://localhost:8081/create">
+								<form class="form-inline" method="GET" id="components_choice"
+			          				action="http://localhost:8081/rest/components">
+			          				<label for="components_list"> Choose one or some components to release : </label>
+			          				<select class="form-control" id="components_list">
+			        					<option class="selected"></option>
+			        				</select>
+			        				
+			        				<select class="multiselect form-control" multiple="multiple" id="components_list_2" style="display: block;">
+									</select>
+									
+			          			</form>
+			          			
+								<form class="form-horizontal" method="POST" id="createForm" 
+									action="http://localhost:8081/rest/releases">
 									<fieldset>
 										<div class="form-group">
-											<label for="Rname" class="col-lg-2 control-label">Release Name</label>
+											<label for="release_name" class="col-lg-2 control-label">Release Name</label>
 											<div class="col-lg-10">
-												<input type="text" class="form-control" id="Rname" value="release1"></input>
+												<input type="text" class="form-control" id="release_name" value="release1"></input>
 											</div>
 										</div>
 										<div class="form-group">
-											<label for="status" class="col-lg-2 control-label">Status</label>
+											<label for="release_status" class="col-lg-2 control-label">Status</label>
 											<div class="col-lg-10">
-												<input type="text" class="form-control" id="status" value="not finished"></input>
+												<input type="text" class="form-control" id="release_status" value="not finished"></input>
 											</div>
 										</div>
 										<div class="form-group">
-					        				<label for="owner" class="col-lg-2 control-label">Owner</label>
+					        				<label for="release_owner" class="col-lg-2 control-label">Owner</label>
 											<div class="col-lg-10">
-												<input type="text" class="form-control" id="owner"  value="kermit"></input>
+												<input type="text" class="form-control" id="release_owner"  value="kermit"></input>
 											</div>
 										</div>
 				        				<div id="create_resp" class="modal-body" style="display: none;"></div>
@@ -126,13 +95,6 @@
 										</div>
 									</fieldset>
 								</form>
-								<form class="form-inline" method="GET" id="components_choice"
-			          				action="http://localhost:8081/list">
-			          				<label for="components_list"> Choose a component to release : </label>
-			          				<select class="form-control" id="components_list">
-			        					<option class="selected"></option>
-			        				</select>
-			          			</form>
 			          				
 			          			<div id="create_resp" class="modal-body"></div>
 			          			<div id="comp_result" style="display:none">
@@ -146,22 +108,43 @@
 
 		<script type="text/javascript" src="jquery.js"></script>
 		<script type="text/javascript" src="jquery.jsonserialize.js"></script>
+		<script type="text/javascript" src="./bootstrap/js/bootstrap.js"></script>
+		<script type="text/javascript" src="./bootstrap-multiselect/js/bootstrap-multiselect.js"></script>
 		<script type="text/javascript" src="./dynatable/jquery.dynatable.js"></script>
+		<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
+
 
 		<script type="text/javascript">
 			$(document).ready(function() {
+				// Initialize the dropdown menu in header
+				$('.dropdown-toggle').dropdown();
+				// Initialize the multiselect list
+				var $select = $('#components_list_2').multiselect();
+				$select.multiselect('disable');
 				
 				$.ajax({
-					url: "http://localhost:8081/list",
+					url: "http://localhost:8081/rest/components",
 					type: "GET"
 				})
 				.done(function(resp) {
-					var $options = $('#components_list');
+					//var $options = $('#components_list');
+					var $options2 = $('#components_list_2');
+					$select.multiselect('enable');
+					$options2.empty().append('<option value="0">Please select</option>');
 					
 					$.each(resp, function() {
+						console.log("hello");
 						//$options.append($("<option>").text(this.name));
-						$options.append($("<option>").text(this.comp_name + " (" + this.comp_id + ")").val(this.comp_id));
+						//$options.append($("<option>").text(this.name + " (" + this.id + ")").val(this.id));
+						$options2.append($("<option>").text(this.name + " (" + this.id + ")").val(this.id));
+						$options2.multiselect('refresh');
+						
+						//$options2.append($("<option></option>").val(this['name']).html(this['id']));
 					});
+					
+					console.log($options2.val());
+					
+					$options2.multiselect('refresh');
 					
 					var $component_value = $('#components_choice :selected').val();
 					$('#comp_result').text($component_value);
@@ -181,21 +164,6 @@
 				$success.hide();
 				$error.hide();
 				
-				$('#components_list').click(function() {
-					//alert("hello");
-					
-					$.ajax({
-						url: "http://localhost:8081/list",
-						type: "GET"
-					})
-					.done(function(resp) {
-						var $options = $('#components_list');
-						
-						$.each(resp, function() {
-							$options.append($("<option>").text(this.name));
-						});
-					});
-				});
 				
 				// Create form script
 				$('#createForm').submit(function(event) {

@@ -67,22 +67,6 @@
 		<div class="container-fluid">
 			<div class="row">
 
-				<!-- Static navigation side bar -->
-				<div class="col-sm-3 col-md-2 sidebar">
-					<ul class="nav nav-sidebar">
-						<li id="list_li"><a href="http://localhost:8081/rcm/l" id="list_ref">
-							<span class="glyphicon glyphicon-list"></span> List all components </a>
-						</li>
-						<li id="hist_li" class="active"><a href="http://localhost:8081/rcm/h" id="hist_ref"><span class="glyphicon glyphicon-list">
-								</span> List history of release constructions </a></li>
-						<li id="create_li"><a href="http://localhost:8081/rcm/c" id="create_ref"><span class="glyphicon glyphicon-plus">
-								</span> Create a component </a></li>
-						<li id="find_li"><a href="http://localhost:8081/rcm/f" id="find_ref"><span class="glyphicon glyphicon-search">
-								</span> Find/view a component </a></li>
-					</ul>
-				</div>
-
-
 				<!-- Dynamic content -->
 				<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 					<h1 class="page-header">Release Construction Manager</h1>
@@ -136,6 +120,8 @@
 
 		<script type="text/javascript">
 			$(document).ready(function(){
+				$('.dropdown-toggle').dropdown();
+				
 				$('#histForm').submit(function(event) {
 					event.preventDefault();
 					

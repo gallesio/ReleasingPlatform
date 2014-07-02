@@ -9,7 +9,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "FEATURE")
+@Table(name = "FEATURES")
 public class Feature {
 
 	private long feat_id;

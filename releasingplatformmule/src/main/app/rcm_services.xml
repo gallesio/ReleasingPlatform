@@ -66,4 +66,8 @@ http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/m
             <component class="services.FeatureResource"/>
         </jersey:resources>
     </flow>
+    <flow name="RCM_ServicesFlow1" doc:name="RCM_ServicesFlow1">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="rest2" doc:name="HTTP"/>
+        <jersey:resources doc:name="REST"/>
+    </flow>
 </mule>
